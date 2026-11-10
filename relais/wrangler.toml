@@ -1,0 +1,7 @@
+name = "premier-jour-relais"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+# Origines autorisées à appeler le relais (adresse du jeu publié), séparées par des virgules.
+ORIGINES = "https://practice-imtbs.github.io"

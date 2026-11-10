@@ -1,0 +1,1 @@
+{ "name": "premier-jour-imtbs", "version": "0.1.0", "private": true, "type": "module", "scripts": { "start": "node outils/serveur-local.mjs", "voix": "node outils/generer-voix.mjs" } }

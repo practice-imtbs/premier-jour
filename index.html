@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Premier jour · L'alternance en immersion · IMT Business School</title>
+  <meta name="description" content="Jeu sérieux à la première personne pour les apprenti·es d'IMT Business School.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+  <canvas id="scene" tabindex="0" aria-label="Scène 3D du jeu. Utilisez les flèches pour vous déplacer et la touche E pour interagir."></canvas>
+
+  <!-- Interface en jeu -->
+  <header id="hud" hidden>
+    <div class="hud-gauche">
+      <img class="logo" src="assets/logo-imtbs.png" alt="Institut Mines-Télécom Business School">
+      <div class="mission">
+        <p class="lieu" id="hudLieu"></p>
+        <p class="objectif" id="hudObjectif" aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="hud-droite">
+      <div class="progression" title="Personnes rencontrées et validées"><span id="hudProgres">0</span>/9<div class="jauge"><i id="hudJauge"></i></div></div>
+      <button class="btn-hud" id="btnCarnet" type="button"><kbd>C</kbd> Carnet</button>
+      <button class="btn-hud" id="btnAide" type="button"><kbd>H</kbd> Aide</button>
+      <button class="btn-hud" id="btnSon" type="button" aria-pressed="true">Son activé</button>
+    </div>
+  </header>
+  <div id="viseur" hidden></div>
+  <div id="invite" hidden></div>
+  <div id="souris" hidden>Cliquez dans la scène pour regarder à la souris · <kbd>Échap</kbd> pour libérer le pointeur</div>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Dialogue -->
+  <section id="dialogue" hidden aria-label="Dialogue">
+    <div class="dlg-tete">
+      <div class="dlg-id"><span class="pastille" id="dlgPastille"></span><div><strong id="dlgNom"></strong><span id="dlgRole"></span></div></div>
+      <div class="dlg-actions">
+        <button type="button" class="lien" id="dlgPasser" hidden>Passer ▸</button>
+        <button type="button" class="lien" id="dlgFermer">Fermer <kbd>Échap</kbd></button>
+      </div>
+    </div>
+    <p id="dlgTexte" aria-live="polite"></p>
+    <div id="dlgZone"></div>
+  </section>
+
+  <!-- Fenêtres -->
+  <div id="voile" hidden></div>
+  <section id="fenetre" class="fenetre" hidden role="dialog" aria-modal="true"></section>
+
+  <!-- Transition entre lieux -->
+  <div id="transition" hidden><div><img src="assets/logo-imtbs.png" alt=""><p class="sur" id="trSur"></p><h2 id="trTitre"></h2><p id="trTexte"></p></div></div>
+
+  <!-- Écran d'accueil -->
+  <main id="accueil">
+    <div class="carte-accueil">
+      <div class="col-marque">
+        <img src="assets/logo-imtbs.png" alt="Institut Mines-Télécom Business School">
+        <p class="mention">Career Center · PracTice<br>Rentrée des apprenti·es 2026-2027</p>
+      </div>
+      <div class="col-jeu">
+        <p class="sur">Jeu sérieux · à la première personne</p>
+        <h1>Premier jour<span>.</span></h1>
+        <p class="chapo">C'est votre premier jour d'alternance. Explorez le campus et votre entreprise, échangez de vive voix avec celles et ceux qui vous accompagnent, et activez votre badge d'apprenti·e.</p>
+        <form id="formDepart" autocomplete="off">
+          <label for="prenom">Votre prénom</label>
+          <input id="prenom" name="prenom" maxlength="24" placeholder="Prénom" required>
+          <fieldset>
+            <legend>Votre programme</legend>
+            <label class="radio"><input type="radio" name="programme" value="bachelor" required><span>Bachelor</span></label>
+            <label class="radio"><input type="radio" name="programme" value="pge"><span>Programme Grande École</span></label>
+          </fieldset>
+          <div class="actions">
+            <button class="btn primaire" type="submit" id="btnCommencer">Commencer la journée</button>
+            <button class="btn" type="button" id="btnReprendre" hidden>Reprendre ma partie</button>
+          </div>
+        </form>
+        <ul class="reperes">
+          <li><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> ou flèches : se déplacer</li>
+          <li>Souris : regarder · <kbd>E</kbd> : parler, ouvrir</li>
+          <li>20 à 30 minutes · son recommandé</li>
+        </ul>
+        <p class="legal">Personnages fictifs. Votre prénom et votre progression restent sur cet appareil. Les questions libres sont traitées par une IA : n'y saisissez aucune donnée personnelle.</p>
+      </div>
+    </div>
+    <p id="chargement">Chargement de la scène…</p>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

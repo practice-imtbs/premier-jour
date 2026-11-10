@@ -1,0 +1,390 @@
+{
+ "nora_q3": {
+  "fichier": "nora_q3.mp3",
+  "empreinte": "d6e5d43f761e"
+ },
+ "nora_q2": {
+  "fichier": "nora_q2.mp3",
+  "empreinte": "42357ce09cd3"
+ },
+ "nora_q1": {
+  "fichier": "nora_q1.mp3",
+  "empreinte": "0707fbbbfab8"
+ },
+ "nora_accueil": {
+  "fichier": "nora_accueil.mp3",
+  "empreinte": "9912d16daf94"
+ },
+ "nora_non1": {
+  "fichier": "nora_non1.mp3",
+  "empreinte": "ae710d50db5a"
+ },
+ "nora_defi": {
+  "fichier": "nora_defi.mp3",
+  "empreinte": "1185b571b3d7"
+ },
+ "nora_non2": {
+  "fichier": "nora_non2.mp3",
+  "empreinte": "a25b4f41cc19"
+ },
+ "nora_e1": {
+  "fichier": "nora_e1.mp3",
+  "empreinte": "ae90858fbc36"
+ },
+ "nora_fin": {
+  "fichier": "nora_fin.mp3",
+  "empreinte": "a58daa88064a"
+ },
+ "karim_accueil": {
+  "fichier": "karim_accueil.mp3",
+  "empreinte": "a55065e7ef80"
+ },
+ "karim_q1": {
+  "fichier": "karim_q1.mp3",
+  "empreinte": "fbaa298fecc0"
+ },
+ "karim_defi": {
+  "fichier": "karim_defi.mp3",
+  "empreinte": "6dedf1017f4a"
+ },
+ "karim_q3": {
+  "fichier": "karim_q3.mp3",
+  "empreinte": "e5866155f3f7"
+ },
+ "karim_q2": {
+  "fichier": "karim_q2.mp3",
+  "empreinte": "7e28519cb13e"
+ },
+ "karim_e1": {
+  "fichier": "karim_e1.mp3",
+  "empreinte": "4bb31fd5dc62"
+ },
+ "karim_non1": {
+  "fichier": "karim_non1.mp3",
+  "empreinte": "d2f6341b822e"
+ },
+ "karim_non2": {
+  "fichier": "karim_non2.mp3",
+  "empreinte": "863af45cddf2"
+ },
+ "karim_e3": {
+  "fichier": "karim_e3.mp3",
+  "empreinte": "e8edaabaf380"
+ },
+ "karim_e2": {
+  "fichier": "karim_e2.mp3",
+  "empreinte": "cd774c717a1c"
+ },
+ "karim_fin": {
+  "fichier": "karim_fin.mp3",
+  "empreinte": "8df955c1a5cb"
+ },
+ "claire_q2": {
+  "fichier": "claire_q2.mp3",
+  "empreinte": "eaa2f24bea91"
+ },
+ "claire_accueil": {
+  "fichier": "claire_accueil.mp3",
+  "empreinte": "8064e91675aa"
+ },
+ "claire_q3": {
+  "fichier": "claire_q3.mp3",
+  "empreinte": "49af41cdce7e"
+ },
+ "claire_q1": {
+  "fichier": "claire_q1.mp3",
+  "empreinte": "34f990254bfd"
+ },
+ "claire_e1": {
+  "fichier": "claire_e1.mp3",
+  "empreinte": "4c8ed30958a1"
+ },
+ "claire_non1": {
+  "fichier": "claire_non1.mp3",
+  "empreinte": "450e11949fea"
+ },
+ "claire_defi": {
+  "fichier": "claire_defi.mp3",
+  "empreinte": "0699c4b0ede6"
+ },
+ "claire_e2": {
+  "fichier": "claire_e2.mp3",
+  "empreinte": "9a8841dcff49"
+ },
+ "claire_e3": {
+  "fichier": "claire_e3.mp3",
+  "empreinte": "5638fb52b8c2"
+ },
+ "claire_non2": {
+  "fichier": "claire_non2.mp3",
+  "empreinte": "8802ce5bb082"
+ },
+ "claire_fin": {
+  "fichier": "claire_fin.mp3",
+  "empreinte": "f3a93bc6e67c"
+ },
+ "ines_accueil": {
+  "fichier": "ines_accueil.mp3",
+  "empreinte": "75b6d1080fe8"
+ },
+ "ines_q3": {
+  "fichier": "ines_q3.mp3",
+  "empreinte": "97c1b532e87e"
+ },
+ "ines_q1": {
+  "fichier": "ines_q1.mp3",
+  "empreinte": "1d3d189c6164"
+ },
+ "ines_defi": {
+  "fichier": "ines_defi.mp3",
+  "empreinte": "a7c8fe9ba1c9"
+ },
+ "ines_q2": {
+  "fichier": "ines_q2.mp3",
+  "empreinte": "46e052e99715"
+ },
+ "ines_e1": {
+  "fichier": "ines_e1.mp3",
+  "empreinte": "00f2c5b4a441"
+ },
+ "ines_non1": {
+  "fichier": "ines_non1.mp3",
+  "empreinte": "9648279c421e"
+ },
+ "ines_e3": {
+  "fichier": "ines_e3.mp3",
+  "empreinte": "9fb3fcfe7451"
+ },
+ "ines_e2": {
+  "fichier": "ines_e2.mp3",
+  "empreinte": "7c18d1e9455e"
+ },
+ "ines_fin": {
+  "fichier": "ines_fin.mp3",
+  "empreinte": "825d3b6af1d1"
+ },
+ "ines_non2": {
+  "fichier": "ines_non2.mp3",
+  "empreinte": "19f1bf39c6fe"
+ },
+ "sam_accueil": {
+  "fichier": "sam_accueil.mp3",
+  "empreinte": "c0d97d8baa5a"
+ },
+ "sam_defi": {
+  "fichier": "sam_defi.mp3",
+  "empreinte": "ba45760bbf2e"
+ },
+ "sam_q1": {
+  "fichier": "sam_q1.mp3",
+  "empreinte": "4eabddf497e9"
+ },
+ "sam_q3": {
+  "fichier": "sam_q3.mp3",
+  "empreinte": "ff0f9216ebaf"
+ },
+ "sam_q2": {
+  "fichier": "sam_q2.mp3",
+  "empreinte": "b00394ac837f"
+ },
+ "sam_e3": {
+  "fichier": "sam_e3.mp3",
+  "empreinte": "46bac135f88d"
+ },
+ "sam_e2": {
+  "fichier": "sam_e2.mp3",
+  "empreinte": "87fd6ab08af6"
+ },
+ "sam_e1": {
+  "fichier": "sam_e1.mp3",
+  "empreinte": "337dc10ec0f2"
+ },
+ "sam_non1": {
+  "fichier": "sam_non1.mp3",
+  "empreinte": "102acd64d91d"
+ },
+ "sam_non2": {
+  "fichier": "sam_non2.mp3",
+  "empreinte": "17b4a3516865"
+ },
+ "sam_fin": {
+  "fichier": "sam_fin.mp3",
+  "empreinte": "960dada35acc"
+ },
+ "lea_accueil": {
+  "fichier": "lea_accueil.mp3",
+  "empreinte": "c51b0bf3b092"
+ },
+ "lea_q1": {
+  "fichier": "lea_q1.mp3",
+  "empreinte": "2eadb98d58a0"
+ },
+ "lea_q2": {
+  "fichier": "lea_q2.mp3",
+  "empreinte": "0cff22108927"
+ },
+ "lea_defi": {
+  "fichier": "lea_defi.mp3",
+  "empreinte": "62a1e476ad8a"
+ },
+ "lea_q3": {
+  "fichier": "lea_q3.mp3",
+  "empreinte": "85bb059f7ed3"
+ },
+ "lea_e1": {
+  "fichier": "lea_e1.mp3",
+  "empreinte": "f90d8d60c80f"
+ },
+ "lea_non1": {
+  "fichier": "lea_non1.mp3",
+  "empreinte": "5b3277de36ec"
+ },
+ "lea_e3": {
+  "fichier": "lea_e3.mp3",
+  "empreinte": "621dbd453fac"
+ },
+ "lea_e2": {
+  "fichier": "lea_e2.mp3",
+  "empreinte": "68d59c5146a5"
+ },
+ "lea_non2": {
+  "fichier": "lea_non2.mp3",
+  "empreinte": "bc90fbdf0891"
+ },
+ "lea_fin": {
+  "fichier": "lea_fin.mp3",
+  "empreinte": "1a4524205f36"
+ },
+ "marc_accueil": {
+  "fichier": "marc_accueil.mp3",
+  "empreinte": "96120e78549d"
+ },
+ "marc_q1": {
+  "fichier": "marc_q1.mp3",
+  "empreinte": "c345570e6536"
+ },
+ "marc_defi": {
+  "fichier": "marc_defi.mp3",
+  "empreinte": "a4e036f14b72"
+ },
+ "marc_q3": {
+  "fichier": "marc_q3.mp3",
+  "empreinte": "545902978761"
+ },
+ "marc_q2": {
+  "fichier": "marc_q2.mp3",
+  "empreinte": "6af885a496b6"
+ },
+ "marc_e1": {
+  "fichier": "marc_e1.mp3",
+  "empreinte": "a4e89e95fce6"
+ },
+ "marc_e2": {
+  "fichier": "marc_e2.mp3",
+  "empreinte": "dfc9bd17fcf1"
+ },
+ "marc_non2": {
+  "fichier": "marc_non2.mp3",
+  "empreinte": "88d3ee995160"
+ },
+ "marc_non1": {
+  "fichier": "marc_non1.mp3",
+  "empreinte": "7cbb8da9fcdc"
+ },
+ "marc_e3": {
+  "fichier": "marc_e3.mp3",
+  "empreinte": "500d53659397"
+ },
+ "marc_fin": {
+  "fichier": "marc_fin.mp3",
+  "empreinte": "3f334fc88035"
+ },
+ "helene_accueil": {
+  "fichier": "helene_accueil.mp3",
+  "empreinte": "8dc5688d5113"
+ },
+ "helene_q1": {
+  "fichier": "helene_q1.mp3",
+  "empreinte": "2d097efc952f"
+ },
+ "helene_defi": {
+  "fichier": "helene_defi.mp3",
+  "empreinte": "e25229277862"
+ },
+ "helene_q2": {
+  "fichier": "helene_q2.mp3",
+  "empreinte": "16f9e5c187d4"
+ },
+ "helene_q3": {
+  "fichier": "helene_q3.mp3",
+  "empreinte": "f6ebcccb55c7"
+ },
+ "helene_e1": {
+  "fichier": "helene_e1.mp3",
+  "empreinte": "e86a98039785"
+ },
+ "helene_non1": {
+  "fichier": "helene_non1.mp3",
+  "empreinte": "079d2963d503"
+ },
+ "helene_e3": {
+  "fichier": "helene_e3.mp3",
+  "empreinte": "7afb0f84c35b"
+ },
+ "helene_e2": {
+  "fichier": "helene_e2.mp3",
+  "empreinte": "9cfb250ca525"
+ },
+ "helene_non2": {
+  "fichier": "helene_non2.mp3",
+  "empreinte": "386c43c2bccb"
+ },
+ "helene_fin": {
+  "fichier": "helene_fin.mp3",
+  "empreinte": "1d63a0928899"
+ },
+ "yanis_accueil": {
+  "fichier": "yanis_accueil.mp3",
+  "empreinte": "963793772b53"
+ },
+ "yanis_q1": {
+  "fichier": "yanis_q1.mp3",
+  "empreinte": "52c1cbe9bd85"
+ },
+ "yanis_q2": {
+  "fichier": "yanis_q2.mp3",
+  "empreinte": "1715a94ff512"
+ },
+ "yanis_defi": {
+  "fichier": "yanis_defi.mp3",
+  "empreinte": "e7af52872380"
+ },
+ "yanis_e1": {
+  "fichier": "yanis_e1.mp3",
+  "empreinte": "0fe4b331e9eb"
+ },
+ "yanis_q3": {
+  "fichier": "yanis_q3.mp3",
+  "empreinte": "d3204d49f4a8"
+ },
+ "yanis_e2": {
+  "fichier": "yanis_e2.mp3",
+  "empreinte": "19e5268f3be8"
+ },
+ "yanis_non1": {
+  "fichier": "yanis_non1.mp3",
+  "empreinte": "793bc84ea3da"
+ },
+ "yanis_e3": {
+  "fichier": "yanis_e3.mp3",
+  "empreinte": "46c7559980c8"
+ },
+ "yanis_non2": {
+  "fichier": "yanis_non2.mp3",
+  "empreinte": "4aab583fbc98"
+ },
+ "yanis_fin": {
+  "fichier": "yanis_fin.mp3",
+  "empreinte": "240f515a1f60"
+ }
+}
