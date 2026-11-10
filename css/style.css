@@ -125,6 +125,11 @@ kbd { display: inline-block; min-width: 1.6em; padding: .08em .4em; border: 1px 
 .badge { display: grid; grid-template-columns: 180px 1fr; gap: 22px; align-items: center; border-radius: 16px; padding: 20px 24px; background: linear-gradient(120deg, #fff 0 38%, #fbf1f8 38%); border: 1px solid #ead3e4; margin: 14px 0 6px; position: relative; overflow: hidden; }
 .badge::after { content: ""; position: absolute; right: -40px; top: -40px; width: 150px; height: 150px; background: var(--cyan); transform: rotate(45deg); opacity: .16; }
 .badge img { width: 100%; }
+.attestation .intitule { margin: 0 0 4px; font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--violet); }
+.attestation .ligne { max-width: 62ch; }
+.identite { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 4px; }
+.identite label { display: grid; gap: 5px; font-size: .82rem; font-weight: 700; color: #3d3d49; }
+.identite input { border: 2px solid #d5d5df; border-radius: 11px; padding: 10px 13px; font-size: 1rem; color: var(--encre); background: #fff; width: 100%; }
 .badge .nom { font-size: 1.7rem; font-weight: 700; margin: 0; letter-spacing: -.01em; }
 .badge .ligne { margin: 3px 0 0; color: #3d3d49; }
 .badge .etat { display: inline-block; margin-top: 10px; background: var(--vert); color: #fff; font-weight: 700; padding: 5px 12px; border-radius: 999px; font-size: .84rem; }

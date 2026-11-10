@@ -3,7 +3,7 @@
 [Jouer en ligne](https://practice-imtbs.github.io/premier-jour/) · [Dépôt GitHub](https://github.com/practice-imtbs/premier-jour)
 
 Jeu sérieux **à la première personne** pour la rentrée des apprenti·es d'IMT Business School (Career Center · PracTice).
-Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.2.0, novembre 2026.
+Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.3.0, novembre 2026.
 
 L'apprenti·e vit son premier jour : il ou elle se déplace en 3D sur le campus, dans l'entreprise Nexus puis dans l'espace d'accompagnement, **échange de vive voix avec 9 personnages**, répond à leurs questions (25 au total) et active son badge à la borne finale. Durée visée : 20 à 30 minutes, sur ordinateur.
 
@@ -30,6 +30,8 @@ Sans clé, le jeu fonctionne entièrement, seules les questions libres sont masq
 | Répliques scénarisées (97) | Voix **pré-générées** en MP3 avec `google/gemini-3.8-flash-tts`, une voix par personnage. Aucun coût pendant le jeu. |
 | Questions libres | L'apprenti·e écrit (ou dicte) sa question. `google/gemini-3.8-flash` répond dans le rôle du personnage, uniquement à partir de `contenu/connaissances.js`, puis `gemini-3.8-flash-lite-tts` vocalise la réponse. |
 | Secours | Si un fichier audio manque, la synthèse vocale du navigateur prend le relais. |
+| Musique d'ambiance | Une piste instrumentale par lieu, **pré-générée** en MP3 avec `google/lyria-3-pro-preview`. Elle s'efface pendant les dialogues et se coupe avec le bouton « Musique ». |
+| Attestation | À l'activation du badge : attestation au nom de l'apprenti·e (prénom et nom saisis sur place), imprimable ou enregistrable en PDF, suivie de la carte des contacts du programme. |
 | Progression | Enregistrée sur l'appareil (`localStorage`), aucun compte. |
 
 ### Générer ou régénérer les voix
@@ -41,6 +43,15 @@ node outils/generer-voix.mjs nora     # un seul personnage
 ```
 
 Le script a besoin de `ffmpeg` pour convertir en MP3. Coût indicatif pour l'ensemble : quelques centimes (environ 15 000 caractères).
+
+### Générer ou régénérer la musique
+
+```sh
+node outils/generer-musique.mjs          # seulement les lieux sans musique
+node outils/generer-musique.mjs nexus    # régénérer la musique d'un lieu
+```
+
+La consigne de chaque lieu est le champ `musique` de `LIEUX`, dans `contenu/contenu.js`. Coût indicatif : 0,08 $ par piste (environ trois minutes). Les pistes publiées ont ensuite été égalisées en volume et allégées avec `ffmpeg` (112 kb/s, fondus d'entrée et de sortie).
 
 ## Modifier le contenu
 
@@ -58,11 +69,12 @@ Les répliques parlées évitent le point médian et épellent certains sigles (
 | `js/textures.js` | Textures procédurales : carrelage, parquet, béton, enduit, bois, tissu, vue extérieure, écrans |
 | `js/rendu.js` | Chaîne de rendu : lumière d'ambiance, occlusion ambiante, anticrénelage, qualité adaptative |
 | `js/personnages.js` | Personnages : silhouettes, visages, tenues, regard, clignements, gestes, bouche animée par la voix |
-| `js/audio.js` | Lecture des voix |
+| `js/audio.js` | Lecture des voix et de la musique d'ambiance |
 | `contenu/` | Scénario et base de connaissances de l'IA |
 | `audio/voix/` | Voix générées + `index.json` |
+| `audio/musique/` | Musique d'ambiance, une piste par lieu |
 | `relais/` | Logique OpenRouter partagée + Worker Cloudflare |
-| `outils/` | Serveur local et génération des voix |
+| `outils/` | Serveur local, génération des voix et de la musique |
 | `vendor/three.module.min.js`, `vendor/jsm/` | Three.js r170 et quelques modules complémentaires (licence MIT) |
 
 ## Rendu graphique

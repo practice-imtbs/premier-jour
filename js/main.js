@@ -4,7 +4,7 @@ import { META, LIEUX, PERSONNAGES, BORNE, CALENDRIER, ANNUAIRE, BONS_A_SAVOIR, R
 import { CONFIG } from '../config.js';
 import { Monde, deplacer } from './monde.js';
 import { creerAvatar } from './personnages.js';
-import { Voix } from './audio.js';
+import { Voix, Musique } from './audio.js';
 import { creerRendu } from './rendu.js';
 
 const $ = (s) => document.querySelector(s);
@@ -27,7 +27,7 @@ function el(tag, attrs = {}, enfants = []) {
 const aff = (t) => t.replace(/\b(?:[A-Z] )+[A-Z]\b/g, (m) => m.replace(/ /g, ''));
 
 // ------------------------------------------------------------------ état
-const etatInitial = () => ({ v: 1, prenom: '', programme: 'pge', lieu: 'campus', persos: {}, notes: [], badge: false, temps: 0, erreurs: 0 });
+const etatInitial = () => ({ v: 1, prenom: '', nom: '', programme: 'pge', lieu: 'campus', persos: {}, notes: [], badge: false, temps: 0, erreurs: 0 });
 let etat = etatInitial();
 const fiche = (id) => (etat.persos[id] ??= { vu: false, etape: 0, valide: false, poses: [] });
 const valide = (id) => Boolean(etat.persos[id]?.valide);
@@ -47,7 +47,7 @@ const scene = new THREE.Scene(); scene.background = new THREE.Color('#dfe9ee');
 const camera = new THREE.PerspectiveCamera(66, 1, 0.08, 80); camera.rotation.order = 'YXZ';
 const rendu = creerRendu(renderer, scene, camera);
 const monde = new Monde(scene);
-const voix = new Voix();
+const voix = new Voix(), musique = new Musique();
 let avatars = [];
 const joueur = { pos: new THREE.Vector3(0, HAUTEUR, 6), lacet: 0, tangage: 0 };
 function taille() { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); rendu.taille(innerWidth, innerHeight); }
@@ -109,7 +109,7 @@ async function allerA(lieu) {
   $('#trSur').textContent = `Étape ${Object.keys(LIEUX).indexOf(lieu) + 1} sur 3`; $('#trTitre').textContent = L.nom; $('#trTexte').textContent = L.accroche;
   t.hidden = false; requestAnimationFrame(() => t.classList.add('vu'));
   await new Promise(r => setTimeout(r, 550));
-  etat.lieu = lieu; construireLieu(lieu); sauver();
+  etat.lieu = lieu; construireLieu(lieu); musique.jouer(lieu); sauver();
   await new Promise(r => setTimeout(r, 1500));
   t.classList.remove('vu'); await new Promise(r => setTimeout(r, 450)); t.hidden = true;
   mode = 'jeu'; canvas.focus();
@@ -169,7 +169,7 @@ function libelleCible(it) {
     return r.length ? { texte: `Porte verrouillée · encore ${r.map(p => p.nom).join(', ')}`, ok: false } : { texte: `Aller vers : ${suite}`, ok: true };
   }
   const r = restants('accompagnement');
-  if (etat.badge) return { texte: 'Revoir mon badge', ok: true };
+  if (etat.badge) return { texte: 'Revoir mon attestation', ok: true };
   return r.length ? { texte: `Borne en attente · encore ${r.map(p => p.nom).join(' et ')}`, ok: false } : { texte: 'Activer mon badge', ok: true };
 }
 function interagir() {
@@ -435,7 +435,7 @@ function ouvrirBorne() {
       e.preventDefault();
       const ok = champs.map((c, i) => c.value.trim() === BORNE.champs[i].reponse);
       champs.forEach((c, i) => { c.classList.toggle('ok', ok[i]); c.classList.toggle('ko', !ok[i]); });
-      if (ok.every(Boolean)) { etat.badge = true; sauver(); majMonde(); voix.succes(); setTimeout(ouvrirFin, 700); }
+      if (ok.every(Boolean)) { etat.badge = true; etat.dateBadge = Date.now(); sauver(); majMonde(); voix.succes(); setTimeout(ouvrirFin, 700); }
       else { voix.erreur(); msg.textContent = `Ce n'est pas encore ça. Vérifiez le repère donné par ${BORNE.champs.filter((_, i) => !ok[i]).map(c => c.source).join(' et ')}.`; }
     },
   }, [
@@ -447,19 +447,30 @@ function ouvrirBorne() {
 
 function ouvrirFin() {
   const prog = etat.programme === 'bachelor' ? 'Bachelor' : 'Programme Grande École';
-  const min = Math.max(1, Math.round(etat.temps / 60));
+  const date = new Date(etat.dateBadge || Date.now()).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const saisie = { prenom: etat.prenom === 'Vous' ? '' : etat.prenom, nom: etat.nom || '' };
+  const nomComplet = () => [saisie.prenom, saisie.nom.toUpperCase()].filter(Boolean).join(' ') || 'Prénom NOM';
+  const titulaire = el('p', { class: 'nom' }, nomComplet());
+  const champ = (cle, libelle, max) => el('label', {}, [el('span', {}, libelle), el('input', {
+    value: saisie[cle], maxlength: max, autocomplete: 'off', placeholder: libelle, 'data-focus': cle === 'nom' ? true : null,
+    oninput: (e) => { saisie[cle] = e.currentTarget.value.trim().slice(0, max); if (cle === 'nom' || saisie.prenom) etat[cle] = saisie[cle]; titulaire.textContent = nomComplet(); sauver(); },
+  })]);
   ouvrirFenetre([
-    el('p', { class: 'sur' }, 'Parcours terminé'), el('h2', { html: 'Badge activé<span>.</span>' }),
-    el('div', { class: 'badge' }, [
+    el('p', { class: 'sur' }, 'Parcours terminé'), el('h2', { html: 'Votre attestation<span>.</span>' }),
+    el('div', { class: 'badge attestation' }, [
       el('img', { src: 'assets/logo-imtbs.png', alt: 'Institut Mines-Télécom Business School' }),
-      el('div', {}, [el('p', { class: 'nom' }, etat.prenom), el('p', { class: 'ligne' }, `Apprenti·e · ${prog} · ${META.annee}`), el('p', { class: 'ligne' }, `9 rencontres, ${PERSONNAGES.reduce((n, p) => n + p.epreuves.length, 0)} questions, environ ${min} min`), el('span', { class: 'etat' }, '✓ Badge d’alternance activé')]),
+      el('div', {}, [
+        el('p', { class: 'intitule' }, 'Attestation de parcours'), titulaire,
+        el('p', { class: 'ligne' }, `a suivi le parcours « ${META.titre} · ${META.sousTitre} » et activé son badge d’apprenti·e.`),
+        el('p', { class: 'ligne' }, `${prog} · ${META.annee} · le ${date}`),
+        el('span', { class: 'etat' }, '✓ Badge d’alternance activé'),
+      ]),
     ]),
+    el('div', { class: 'identite sans-impression' }, [champ('prenom', 'Prénom', 24), champ('nom', 'Nom', 40)]),
     el('div', { class: 'barre sans-impression' }, [el('button', { type: 'button', class: 'btn primaire', onclick: () => print() }, 'Imprimer ou enregistrer en PDF'), el('button', { type: 'button', class: 'btn', onclick: fermerFenetre }, 'Continuer à explorer')]),
-    el('h3', {}, 'Ce que je retiens'), notes(),
-    el('h3', {}, 'Mes dates clés'), frise(),
     el('h3', {}, `Mes contacts · ${prog}`), contacts(),
-    el('p', { class: 'sous', style: 'margin-top:18px' }, `Personnages fictifs ; contacts et échéances à confirmer auprès du Career Center (${META.contact}).`),
-  ], 'Bilan');
+    el('p', { class: 'sous', style: 'margin-top:18px' }, `Vos notes et vos dates clés restent disponibles dans le carnet. Contacts à confirmer auprès du Career Center (${META.contact}).`),
+  ], 'Attestation');
 }
 
 // ------------------------------------------------------------------ boucle
@@ -506,13 +517,14 @@ function boucle() {
     a.etiquette.visible = !(dlg && dlg.avatar === a) && vTmp.distanceTo(joueur.pos) < 9;
   }
   monde.maj(dt);
+  musique.maj(dt, mode !== 'dialogue');
   rendu.rendre(mode === 'accueil' || brut > 0.5 ? 0 : brut);
   requestAnimationFrame(boucle);
 }
 
 // ------------------------------------------------------------------ démarrage
 async function demarrer(reprise) {
-  voix.deverrouiller();
+  voix.deverrouiller(); musique.deverrouiller(reprise ? etat.lieu : 'campus');
   $('#accueil').hidden = true; $('#hud').hidden = false; $('#viseur').hidden = false; $('#souris').hidden = false;
   if (!reprise) { sauver(); await allerA('campus'); } else { construireLieu(etat.lieu); mode = 'jeu'; canvas.focus(); }
 }
@@ -525,6 +537,8 @@ $('#formDepart').addEventListener('submit', (e) => {
 $('#btnReprendre').onclick = () => { etat = lireSauvegarde() || etat; demarrer(true); };
 $('#btnCarnet').onclick = () => ouvrirCarnet(); $('#btnAide').onclick = ouvrirAide;
 $('#btnSon').onclick = (e) => { voix.muet = !voix.muet; if (voix.muet) voix.stop(); e.currentTarget.textContent = voix.muet ? 'Son coupé' : 'Son activé'; e.currentTarget.setAttribute('aria-pressed', !voix.muet); };
+$('#btnMusique').onclick = (e) => { const a = musique.basculer(); e.currentTarget.textContent = a ? 'Musique activée' : 'Musique coupée'; e.currentTarget.setAttribute('aria-pressed', a); };
+if (!musique.active) { $('#btnMusique').textContent = 'Musique coupée'; $('#btnMusique').setAttribute('aria-pressed', false); }
 addEventListener('beforeunload', () => { if (mode !== 'accueil') sauver(); }); setInterval(() => { if (mode !== 'accueil') sauver(); }, 15000);
 
 (async function init() {
@@ -542,4 +556,4 @@ addEventListener('beforeunload', () => { if (mode !== 'accueil') sauver(); }); s
 })();
 
 // accès pour les tests automatisés
-window.__jeu = { get etat() { return etat; }, joueur, monde, get mode() { return mode; }, get cible() { return cible; }, allerA, interagir, majMonde, voix, rendu, scene, camera, get direct() { return direct; } };
+window.__jeu = { get etat() { return etat; }, joueur, monde, get mode() { return mode; }, get cible() { return cible; }, allerA, interagir, majMonde, voix, musique, rendu, scene, camera, get direct() { return direct; } };

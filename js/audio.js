@@ -90,3 +90,33 @@ export class Voix {
     return Math.sqrt(s / this.tampon.length);
   }
 }
+
+// Musique d'ambiance : une piste par lieu, en boucle, qui s'efface pendant les dialogues.
+const CLE_MUSIQUE = 'imtbs_premier_jour_musique';
+export class Musique {
+  constructor() {
+    this.el = new Audio(); this.el.loop = true; this.el.preload = 'auto'; this.el.volume = 0;
+    this.lieu = null; this.charge = null; this.niveau = 0.2; this.active = true; this.pret = false;
+    try { this.active = localStorage.getItem(CLE_MUSIQUE) !== '0'; } catch { /* stockage indisponible */ }
+    this.el.addEventListener('error', () => { this.charge = null; this.indisponible = this.lieu; });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) this.el.pause(); });
+  }
+  // à appeler sur un geste utilisateur (politique de lecture automatique des navigateurs)
+  deverrouiller(lieu) { this.pret = true; this.lieu = lieu; this._charger(); }
+  jouer(lieu) { this.lieu = lieu; }
+  basculer() { this.active = !this.active; try { localStorage.setItem(CLE_MUSIQUE, this.active ? '1' : '0'); } catch { /* stockage indisponible */ } return this.active; }
+  _charger() {
+    this.charge = this.lieu; this.el.volume = 0; this.el.src = `audio/musique/${this.lieu}.mp3`;
+    if (this.active) this.el.play().catch(() => { /* lecture refusée : nouvel essai au prochain passage */ });
+  }
+  // enMarche : faux pendant un dialogue (la musique s'efface puis reprend où elle en était)
+  maj(dt, enMarche) {
+    if (!this.pret || !this.lieu || this.indisponible === this.lieu) return;
+    const bonnePiste = this.charge === this.lieu, cible = this.active && enMarche && bonnePiste && !document.hidden ? this.niveau : 0;
+    const v = this.el.volume, pas = dt * (cible > v ? 0.12 : 0.3);
+    this.el.volume = Math.max(0, Math.min(1, Math.abs(cible - v) <= pas ? cible : v + Math.sign(cible - v) * pas));
+    if (!bonnePiste && this.el.volume === 0) return this._charger();     // changement de lieu : fondu, puis nouvelle piste
+    if (cible > 0 && this.el.paused) this.el.play().catch(() => { });
+    else if (cible === 0 && this.el.volume === 0 && !this.el.paused) this.el.pause();
+  }
+}

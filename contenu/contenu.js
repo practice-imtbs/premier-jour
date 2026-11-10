@@ -4,6 +4,7 @@
 // Source : PropositionMarine2/.../content/content.json (L'Entreprise Mystère, 2026-2027).
 // Les répliques parlées évitent le point médian pour rester naturelles à l'oral.
 // Après toute modification d'une réplique : relancer `node outils/generer-voix.mjs`.
+// Après modification d'une consigne `musique` : relancer `node outils/generer-musique.mjs <lieu>`.
 // ============================================================================
 
 export const META = {
@@ -15,24 +16,28 @@ export const META = {
   modeleVoix: 'google/gemini-3.8-flash-tts',
   modeleVoixDirect: 'google/gemini-3.8-flash-lite-tts',
   modeleTexte: 'google/gemini-3.8-flash',
+  modeleMusique: 'google/lyria-3-pro-preview',
 };
 
 export const LIEUX = {
   campus: {
     nom: 'Campus IMT-BS',
     accroche: 'Le hall du campus, à Évry-Courcouronnes',
+    musique: 'Light, optimistic background music for the bright lobby of a modern business school. Soft felt piano, warm pads, gentle fingerpicked acoustic guitar and very light percussion, around 92 bpm, major key, calm and welcoming. Instrumental only, no vocals, no lyrics, no spoken words. Steady and even dynamics from start to finish, no dramatic build-up, no abrupt ending, so that it can loop quietly as background music in a serious game.',
     objectif: 'Rencontrez Nora à l’accueil, puis faites le tour du campus.',
     suite: 'nexus',
   },
   nexus: {
     nom: 'Entreprise Nexus',
     accroche: 'Votre entreprise d’accueil, premier jour en open space',
+    musique: 'Understated background music for a modern tech company open space. Minimal downtempo electronica: soft pulsing synth arpeggios, warm round bass, light brushed beat, around 100 bpm, focused, confident and friendly. Instrumental only, no vocals, no lyrics, no spoken words. Steady and even dynamics from start to finish, no dramatic build-up, no abrupt ending, so that it can loop quietly as background music in a serious game.',
     objectif: 'Présentez-vous à Samuel, Léa et Marc.',
     suite: 'accompagnement',
   },
   accompagnement: {
     nom: 'Espace d’accompagnement',
     accroche: 'Le Career Center, pour les situations délicates',
+    musique: 'Warm, reassuring background music for a quiet counselling lounge. Slow felt piano, soft strings and gentle ambient pads, around 70 bpm, no drums, tender, caring and hopeful. Instrumental only, no vocals, no lyrics, no spoken words. Steady and even dynamics from start to finish, no dramatic build-up, no abrupt ending, so that it can loop quietly as background music in a serious game.',
     objectif: 'Échangez avec Hélène et Yanis, puis activez votre badge à la borne.',
     suite: null,
   },
