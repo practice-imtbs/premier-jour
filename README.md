@@ -3,7 +3,7 @@
 [Jouer en ligne](https://practice-imtbs.github.io/premier-jour/) · [Dépôt GitHub](https://github.com/practice-imtbs/premier-jour)
 
 Jeu sérieux **à la première personne** pour la rentrée des apprenti·es d'IMT Business School (Career Center · PracTice).
-Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.1.0, novembre 2026.
+Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.2.0, novembre 2026.
 
 L'apprenti·e vit son premier jour : il ou elle se déplace en 3D sur le campus, dans l'entreprise Nexus puis dans l'espace d'accompagnement, **échange de vive voix avec 9 personnages**, répond à leurs questions (25 au total) et active son badge à la borne finale. Durée visée : 20 à 30 minutes, sur ordinateur.
 
@@ -54,14 +54,24 @@ Les répliques parlées évitent le point médian et épellent certains sigles (
 |---|---|
 | `index.html`, `css/style.css` | Interface, charte IMT-BS (violet #AD1D89, cyan #00B8DE, logo officiel) |
 | `js/main.js` | État, déplacements, dialogues, épreuves, carnet, borne, bilan |
-| `js/monde.js` | Les trois lieux en 3D (géométrie procédurale, aucun modèle externe) |
-| `js/personnages.js` | Avatars : regard, gestes, bouche animée par la voix |
+| `js/monde.js` | Les trois lieux en 3D (géométrie procédurale, aucun modèle externe), mobilier et accessoires |
+| `js/textures.js` | Textures procédurales : carrelage, parquet, béton, enduit, bois, tissu, vue extérieure, écrans |
+| `js/rendu.js` | Chaîne de rendu : lumière d'ambiance, occlusion ambiante, anticrénelage, qualité adaptative |
+| `js/personnages.js` | Personnages : silhouettes, visages, tenues, regard, clignements, gestes, bouche animée par la voix |
 | `js/audio.js` | Lecture des voix |
 | `contenu/` | Scénario et base de connaissances de l'IA |
 | `audio/voix/` | Voix générées + `index.json` |
 | `relais/` | Logique OpenRouter partagée + Worker Cloudflare |
 | `outils/` | Serveur local et génération des voix |
-| `vendor/three.module.min.js` | Three.js r170 (licence MIT) |
+| `vendor/three.module.min.js`, `vendor/jsm/` | Three.js r170 et quelques modules complémentaires (licence MIT) |
+
+## Rendu graphique
+
+Depuis la version 0.2.0, le jeu vise un rendu plus réaliste, toujours sans aucun modèle ni image externe : matières texturées (carrelage, parquet, béton ciré, enduit, bois, tissu), reflets et lumière d'ambiance, ombres douces, occlusion ambiante, fenêtres avec vue extérieure, mobilier détaillé (postes de travail, sièges, bibliothèques, plantes, suspensions) et personnages aux proportions humaines (visage, coiffure, tenue, regard et gestes).
+
+La qualité s'adapte à l'ordinateur : si l'affichage manque de fluidité, le jeu passe de lui-même de « Élevée » à « Standard » puis « Légère ». Le choix peut être forcé dans l'aide (touche H) ou par l'adresse : `?qualite=2` (élevée), `1` (standard), `0` (légère). Les collisions et le parcours sont identiques à la version 0.1.0.
+
+Pour changer l'apparence d'un personnage, modifier son bloc `look` dans `contenu/contenu.js` : `carrure` (`f` ou `m`), `style` (`veste`, `chemise`, `pull`), `col`, `chemise`, `jupe`, `manches`, `coiffure`, `frange`, `barbe`, `lunettes`, `iris`, `taille`, et les couleurs `peau`, `cheveux`, `tenue`, `bas`.
 
 ## Mettre en ligne
 

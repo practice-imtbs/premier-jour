@@ -46,7 +46,7 @@ export const PERSONNAGES = [
   {
     id: 'nora', nom: 'Nora', role: 'Accueil du campus', lieu: 'campus',
     voix: 'Aoede', ton: 'chaleureuse, souriante, dynamique',
-    look: { peau: '#e8b796', cheveux: '#2b1d16', coiffure: 'carre', tenue: '#AD1D89', bas: '#23232b' },
+    look: { peau: '#e8b796', cheveux: '#2b1d16', coiffure: 'carre', tenue: '#AD1D89', bas: '#23232b', carrure: 'f', style: 'veste', chemise: '#ffffff', frange: true, iris: '#3d2616' },
     accueil: "Bonjour et bienvenue à IMT Business School ! Moi, c'est Nora, de l'accueil. C'est votre premier jour d'alternance, n'est-ce pas ? Votre badge n'est pas encore activé. Pour l'activer, il va falloir rencontrer les bonnes personnes, ici sur le campus, puis dans votre entreprise. Posez-moi vos questions, je suis là pour ça.",
     questions: [
       { q: 'Où suis-je exactement ?', r: "Vous êtes dans le hall du campus d'Évry-Courcouronnes. Sur votre gauche, le bureau A08 du pôle alternance. Sur votre droite, la salle de cours B12 et le bureau de la coordination pédagogique. Et la porte vitrée du fond mène vers votre entreprise d'accueil, Nexus." },
@@ -70,7 +70,7 @@ export const PERSONNAGES = [
   {
     id: 'karim', nom: 'Karim', role: 'Conseiller du pôle alternance · bureau A08', lieu: 'campus',
     voix: 'Achird', ton: 'posé, bienveillant, rassurant',
-    look: { peau: '#b98157', cheveux: '#15110f', coiffure: 'court', tenue: '#1f3a5f', bas: '#2a2a33', barbe: true },
+    look: { peau: '#b98157', cheveux: '#15110f', coiffure: 'court', tenue: '#1f3a5f', bas: '#2a2a33', barbe: true, carrure: 'm', style: 'veste', chemise: '#dfe8f2', iris: '#2e1c10', volume: 0.035 },
     accueil: "Bonjour, entrez ! Karim, du pôle alternance. Ici, on répond à toutes vos questions sur votre statut d'apprenti. Contrat, absences, rythme, difficultés : commencez toujours par nous. Qu'est-ce que je peux vous expliquer ?",
     questions: [
       { q: 'Suis-je étudiant ou salarié ?', r: "Les deux à la fois, et c'est toute la particularité de l'alternance. Votre employeur finance votre formation et vous verse un salaire, y compris pendant vos semaines de cours. Donc même à l'école, vous restez salarié, avec les mêmes obligations : ponctualité, tenue, comportement." },
@@ -111,7 +111,7 @@ export const PERSONNAGES = [
   {
     id: 'claire', nom: 'Claire', role: 'Enseignante · salle B12', lieu: 'campus',
     voix: 'Kore', ton: 'claire, précise, pédagogue',
-    look: { peau: '#f0c9a8', cheveux: '#8a4b2a', coiffure: 'chignon', tenue: '#0f7c8c', bas: '#2d2d36', lunettes: true },
+    look: { peau: '#f0c9a8', cheveux: '#8a4b2a', coiffure: 'chignon', tenue: '#0f7c8c', bas: '#2d2d36', lunettes: true, carrure: 'f', style: 'pull', iris: '#4f6b3a' },
     accueil: "Bonjour, installez-vous. Je suis Claire, j'enseigne le marketing. Avant de commencer chaque cours, je vous demanderai d'émarger. C'est votre preuve de présence, et elle compte autant pour l'école que pour votre employeur.",
     questions: [
       { q: "Comment fonctionne l'émargement ?", r: "Tout passe par l'application Edusign. Vous ouvrez l'appli, vous cliquez sur le cours, puis sur Sign and Scan. Vous apposez votre signature officielle, et vous scannez le Q R code que j'affiche à l'écran. Et cela, à chaque cours, au moment où je le demande." },
@@ -152,7 +152,7 @@ export const PERSONNAGES = [
   {
     id: 'ines', nom: 'Inès', role: 'Coordinatrice pédagogique', lieu: 'campus',
     voix: 'Leda', ton: 'attentive, directe, à l’écoute',
-    look: { peau: '#c98f6b', cheveux: '#1b1412', coiffure: 'long', tenue: '#f2f2f5', bas: '#3a2a4a' },
+    look: { peau: '#c98f6b', cheveux: '#1b1412', coiffure: 'long', tenue: '#f2f2f5', bas: '#3a2a4a', carrure: 'f', style: 'chemise', jupe: true, iris: '#3a2414' },
     accueil: "Bonjour ! Inès, coordinatrice pédagogique. Je suis votre contact pour le suivi au quotidien : absences, retards, justificatifs. Autant bien connaître la procédure avant d'en avoir besoin.",
     questions: [
       { q: 'Je suis malade un matin de cours. Que faire ?', r: "D'abord, prévenez-moi, puis prévenez votre employeur, le plus tôt possible. Ensuite, consultez un médecin en précisant bien que vous êtes salarié : il vous faut un arrêt de travail, pas un simple certificat médical. Et vous le transmettez sur Edusign et à votre employeur dans le délai prévu." },
@@ -197,7 +197,7 @@ export const PERSONNAGES = [
   {
     id: 'sam', nom: 'Samuel', role: 'Votre tuteur en entreprise · Nexus', lieu: 'nexus',
     voix: 'Orus', ton: 'franc, énergique, sympathique',
-    look: { peau: '#8d5a3b', cheveux: '#0f0c0b', coiffure: 'court', tenue: '#e9eaee', bas: '#1d2a3a' },
+    look: { peau: '#8d5a3b', cheveux: '#0f0c0b', coiffure: 'court', tenue: '#e9eaee', bas: '#1d2a3a', carrure: 'm', style: 'chemise', manches: 'retroussees', iris: '#2a180e', volume: 0.012, taille: 1.02 },
     accueil: "Ah, vous voilà ! Bienvenue chez Nexus. Samuel, je suis votre tuteur en entreprise. Désolé pour ce matin, j'étais en déplacement. C'est moi qui vous accompagne sur vos missions toute l'année. Par quoi voulez-vous commencer ?",
     questions: [
       { q: 'Qu’attendez-vous de moi au quotidien ?', r: "De la ponctualité, d'abord, et le respect des horaires de l'équipe. Posez des questions, prenez des notes pendant les briefings, et dites-moi quand une tâche est terminée pour en demander une autre. Le premier jour, une tenue professionnelle, ensuite vous vous adapterez aux codes de la maison." },
@@ -239,7 +239,7 @@ export const PERSONNAGES = [
   {
     id: 'lea', nom: 'Léa', role: 'Ressources humaines · Nexus', lieu: 'nexus',
     voix: 'Sulafat', ton: 'chaleureuse, professionnelle, précise',
-    look: { peau: '#f3d2b8', cheveux: '#c9a25a', coiffure: 'long', tenue: '#7a2e8e', bas: '#26262e' },
+    look: { peau: '#f3d2b8', cheveux: '#c9a25a', coiffure: 'long', tenue: '#7a2e8e', bas: '#26262e', carrure: 'f', style: 'veste', chemise: '#f4f0ea', iris: '#5f7f96' },
     accueil: "Bonjour et bienvenue dans l'équipe ! Léa, des ressources humaines. Contrat, bulletin de salaire, congés, avantages : c'est avec moi que ça se passe. Vous avez des questions pratiques ?",
     questions: [
       { q: 'À combien de congés ai-je droit ?', r: "Comme tout salarié, deux jours et demi de congés payés par mois travaillé. Vous avez en plus cinq jours de congé pour réviser, sur toute la durée du contrat. Attention, l'employeur peut imposer une partie des dates." },
@@ -281,7 +281,7 @@ export const PERSONNAGES = [
   {
     id: 'marc', nom: 'Marc', role: 'Manager de l’équipe · Nexus', lieu: 'nexus',
     voix: 'Charon', ton: 'assuré, exigeant mais juste',
-    look: { peau: '#e3b38f', cheveux: '#5b5b60', coiffure: 'court', tenue: '#2b2f3a', bas: '#1b1b20', barbe: true },
+    look: { peau: '#e3b38f', cheveux: '#5b5b60', coiffure: 'court', tenue: '#2b2f3a', bas: '#1b1b20', barbe: true, carrure: 'm', style: 'veste', chemise: '#ffffff', iris: '#4a5a66', degarni: true },
     accueil: "Bonjour. Marc, je dirige l'équipe. Ravi de vous compter parmi nous. On a de beaux projets cette année, et parfois des urgences. Je préfère qu'on se dise les choses clairement dès le départ.",
     questions: [
       { q: "Le rythme d'alternance peut-il changer ?", r: "Le rythme est fixé dans votre contrat. Je ne peux pas le modifier de mon côté. Si j'ai un besoin exceptionnel, je dois faire une demande écrite au pôle alternance, au moins une semaine avant, et c'est l'école qui décide." },
@@ -324,7 +324,7 @@ export const PERSONNAGES = [
   {
     id: 'helene', nom: 'Hélène', role: 'Votre tutrice école', lieu: 'accompagnement',
     voix: 'Vindemiatrix', ton: 'douce, posée, rassurante',
-    look: { peau: '#f1cdb0', cheveux: '#3b2a22', coiffure: 'carre', tenue: '#00a3c4', bas: '#2a2a33', lunettes: true },
+    look: { peau: '#f1cdb0', cheveux: '#3b2a22', coiffure: 'carre', tenue: '#00a3c4', bas: '#2a2a33', lunettes: true, carrure: 'f', style: 'pull', col: 'v', chemise: '#ffffff', iris: '#6a5330', taille: 0.985 },
     accueil: "Bonjour, prenez place. Je suis Hélène, votre tutrice école. Mon rôle, c'est de suivre votre intégration et de faire le lien avec l'entreprise si besoin. Tout ce que vous me dites reste entre nous.",
     questions: [
       { q: 'À quoi sert la rencontre avec le tuteur école ?', r: "C'est un rendez-vous confidentiel entre vous et moi. Votre tuteur en entreprise n'y assiste pas et n'a pas accès au compte rendu. C'est l'occasion de signaler une difficulté sans pression et de vérifier que vos missions correspondent à ce qui était prévu." },
@@ -366,7 +366,7 @@ export const PERSONNAGES = [
   {
     id: 'yanis', nom: 'Yanis', role: 'Conseiller du CFA', lieu: 'accompagnement',
     voix: 'Iapetus', ton: 'clair, concret, encourageant',
-    look: { peau: '#a8714c', cheveux: '#1a1310', coiffure: 'court', tenue: '#3d4a2f', bas: '#24242b' },
+    look: { peau: '#a8714c', cheveux: '#1a1310', coiffure: 'court', tenue: '#3d4a2f', bas: '#24242b', carrure: 'm', style: 'pull', col: 'v', chemise: '#e8e4da', iris: '#33200f', volume: 0.045 },
     accueil: "Bonjour ! Yanis, du C F A, le centre de formation d'apprentis. Je m'occupe des questions administratives et financières de votre contrat, et je vous accompagne si le contrat s'arrête. Parlons-en avant que cela n'arrive.",
     questions: [
       { q: 'Quel est le rôle du CFA ?', r: "Le C F A gère le volet administratif et financier de votre contrat, la procédure en cas de rupture et le statut S F P. Chaque programme a sa référente, vous la trouverez dans votre carnet. Et bon à savoir : nous pouvons vous prêter un ordinateur portable." },

@@ -28,6 +28,7 @@ kbd { display: inline-block; min-width: 1.6em; padding: .08em .4em; border: 1px 
 .jauge { width: 74px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .18); overflow: hidden; }
 .jauge i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--cyan), var(--violet)); transition: width .5s; }
 
+#vignette { position: fixed; inset: 0; pointer-events: none; z-index: 1; background: radial-gradient(ellipse at 50% 46%, rgba(8, 8, 16, 0) 58%, rgba(8, 8, 16, .26) 100%); }
 #viseur { position: fixed; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px rgba(0, 0, 0, .35); z-index: 4; pointer-events: none; opacity: .85; }
 #invite { position: fixed; left: 50%; top: 66%; transform: translateX(-50%); background: var(--nuit); border: 1px solid var(--ligne); border-radius: 999px; padding: 10px 20px; font-size: 1rem; z-index: 5; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 30px rgba(0, 0, 0, .3); }
 #invite kbd { background: var(--violet); border-color: var(--violet); opacity: 1; margin-right: .5em; }
@@ -180,6 +181,6 @@ kbd { display: inline-block; min-width: 1.6em; padding: .08em .4em; border: 1px 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 @media print {
   body { overflow: visible; background: #fff; }
-  #scene, #hud, #voile, #dialogue, #viseur, #invite, #souris, #toast, .fermer, .sans-impression { display: none !important; }
+  #scene, #vignette, #hud, #voile, #dialogue, #viseur, #invite, #souris, #toast, .fermer, .sans-impression { display: none !important; }
   .fenetre { position: static; transform: none; width: auto; max-height: none; box-shadow: none; padding: 0; }
 }

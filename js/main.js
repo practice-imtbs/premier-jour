@@ -5,6 +5,7 @@ import { CONFIG } from '../config.js';
 import { Monde, deplacer } from './monde.js';
 import { creerAvatar } from './personnages.js';
 import { Voix } from './audio.js';
+import { creerRendu } from './rendu.js';
 
 const $ = (s) => document.querySelector(s);
 const CLE = 'imtbs_premier_jour_v1';
@@ -41,17 +42,15 @@ function lireSauvegarde() {
 
 // ------------------------------------------------------------------ rendu
 const canvas = $('#scene');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#dfe9ee');
-const camera = new THREE.PerspectiveCamera(68, 1, 0.08, 80); camera.rotation.order = 'YXZ';
+const camera = new THREE.PerspectiveCamera(66, 1, 0.08, 80); camera.rotation.order = 'YXZ';
+const rendu = creerRendu(renderer, scene, camera);
 const monde = new Monde(scene);
 const voix = new Voix();
 let avatars = [];
 const joueur = { pos: new THREE.Vector3(0, HAUTEUR, 6), lacet: 0, tangage: 0 };
-function taille() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
+function taille() { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); rendu.taille(innerWidth, innerHeight); }
 addEventListener('resize', taille); taille();
 
 // ------------------------------------------------------------------ lieux
@@ -67,6 +66,7 @@ function construireLieu(lieu) {
     monde.interactifs.push({ type: 'perso', id: p.id, pos: new THREE.Vector3(pl.x, 1.6, pl.z), avatar: a });
   }
   scene.background.set(lieu === 'nexus' ? '#cfd6dc' : '#e6edf0');
+  rendu.sceneChangee();
   majMonde(true);
 }
 const restants = (lieu, sauf = []) => PERSONNAGES.filter(p => p.lieu === lieu && !valide(p.id) && !sauf.includes(p.id));
@@ -417,6 +417,12 @@ function ouvrirAide() {
       <li><kbd>Espace</kbd> pendant un dialogue : passer la réplique en cours</li>` }),
     el('h3', {}, 'Comment progresser ?'),
     el('p', { class: 'sous' }, "Chaque personne répond à vos questions, proposées ou libres, puis vous en pose quelques-unes. Les bonnes réponses s'ajoutent à votre carnet. Quand tout le monde est rencontré dans un lieu, la porte suivante s'ouvre."),
+    el('h3', {}, 'Qualité graphique'),
+    el('p', { class: 'sous' }, "En mode automatique, le jeu réduit lui-même les effets si l'ordinateur manque de puissance."),
+    el('div', { class: 'barre', role: 'group', 'aria-label': 'Qualité graphique' }, [['auto', 'Automatique'], ['2', 'Élevée'], ['1', 'Standard'], ['0', 'Légère']].map(([c, nom]) => el('button', {
+      type: 'button', class: 'btn' + (rendu.choix === c ? ' primaire' : ''), 'aria-pressed': rendu.choix === c,
+      onclick: (e) => { rendu.choisir(c); for (const b of e.currentTarget.parentElement.children) { b.classList.toggle('primaire', b === e.currentTarget); b.setAttribute('aria-pressed', b === e.currentTarget); } },
+    }, nom))),
     el('div', { class: 'barre' }, [el('button', { type: 'button', class: 'btn', onclick: () => { if (confirm('Effacer la progression et revenir à l’accueil ?')) { localStorage.removeItem(CLE); location.reload(); } } }, 'Recommencer une partie')]),
   ], 'Aide');
 }
@@ -461,7 +467,7 @@ const horloge = new THREE.Clock();
 const vTmp = new THREE.Vector3();
 let decalage = 0;
 function boucle() {
-  const dt = Math.min(horloge.getDelta(), 0.05);
+  const brut = horloge.getDelta(), dt = Math.min(brut, 0.05);
   if (mode === 'jeu') {
     etat.temps += dt;
     const t = (c) => touches.has(c);
@@ -482,12 +488,15 @@ function boucle() {
   } else if (mode === 'dialogue' && dlg) {
     // la caméra se tourne vers l'interlocuteur
     const h = dlg.avatar.tetePos, dx = h.x - joueur.pos.x, dz = h.z - joueur.pos.z;
-    const lacet = Math.atan2(-dx, -dz), tang = Math.atan2(h.y - 0.3 - joueur.pos.y, Math.hypot(dx, dz));
+    const lacet = Math.atan2(-dx, -dz), tang = Math.atan2(h.y - 0.06 - joueur.pos.y, Math.hypot(dx, dz));
     let d = lacet - joueur.lacet; d = Math.atan2(Math.sin(d), Math.cos(d));
     joueur.lacet += d * Math.min(1, dt * 4); joueur.tangage += (tang - joueur.tangage) * Math.min(1, dt * 4);
   }
   // en dialogue, l'image est décalée vers le haut pour que le visage reste visible au-dessus du panneau
-  decalage += ((mode === 'dialogue' ? 0.2 : 0) - decalage) * Math.min(1, dt * 4);
+  decalage += ((mode === 'dialogue' ? 0.26 : 0) - decalage) * Math.min(1, dt * 4);
+  // en dialogue, le cadre se resserre sur l'interlocuteur
+  const focale = mode === 'dialogue' ? 44 : 66;
+  if (Math.abs(camera.fov - focale) > 0.05) { camera.fov += (focale - camera.fov) * Math.min(1, dt * 3.5); camera.updateProjectionMatrix(); }
   if (decalage > 0.002) camera.setViewOffset(innerWidth, innerHeight, 0, decalage * innerHeight, innerWidth, innerHeight); else if (camera.view) camera.clearViewOffset();
   camera.position.copy(joueur.pos); camera.rotation.set(joueur.tangage, joueur.lacet, 0);
   const niveau = voix.niveau();
@@ -497,7 +506,7 @@ function boucle() {
     a.etiquette.visible = !(dlg && dlg.avatar === a) && vTmp.distanceTo(joueur.pos) < 9;
   }
   monde.maj(dt);
-  renderer.render(scene, camera);
+  rendu.rendre(mode === 'accueil' || brut > 0.5 ? 0 : brut);
   requestAnimationFrame(boucle);
 }
 
@@ -533,4 +542,4 @@ addEventListener('beforeunload', () => { if (mode !== 'accueil') sauver(); }); s
 })();
 
 // accès pour les tests automatisés
-window.__jeu = { get etat() { return etat; }, joueur, monde, get mode() { return mode; }, get cible() { return cible; }, allerA, interagir, majMonde, voix, get direct() { return direct; } };
+window.__jeu = { get etat() { return etat; }, joueur, monde, get mode() { return mode; }, get cible() { return cible; }, allerA, interagir, majMonde, voix, rendu, scene, camera, get direct() { return direct; } };
