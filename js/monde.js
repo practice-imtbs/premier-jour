@@ -111,7 +111,9 @@ export class Monde {
   mur(x1, z1, x2, z2, { h = H, y0 = 0, ep = 0.2, m = '#f4f3f1', coll = true } = {}) {
     const l = Math.abs(x2 - x1) + (x1 === x2 ? ep : 0), p = Math.abs(z2 - z1) + (z1 === z2 ? ep : 0);
     if (y0 === 0 && h > 1 && typeof m === 'string') this.boite(l + 0.03, 0.11, p + 0.03, mat(this.plinthe || '#3d3d47', { roughness: 0.5 }), (x1 + x2) / 2, 0.055, (z1 + z2) / 2, { ombre: false });
-    return this.boite(l, h, p, typeof m === 'string' ? matMur(m) : m, (x1 + x2) / 2, y0 + h / 2, (z1 + z2) / 2, { coll: coll && y0 < 1.8 });
+    const o = this.boite(l, h, p, typeof m === 'string' ? matMur(m) : m, (x1 + x2) / 2, y0 + h / 2, (z1 + z2) / 2, { coll: coll && y0 < 1.8 });
+    if (coll && y0 < 1.8) this.colliders[this.colliders.length - 1].mur = true; // bloque aussi la conversation à travers le mur
+    return o;
   }
   // mur percé d'une porte coulissante vitrée ; axe 'x' = mur le long de x (z fixe), axe 'z' = mur le long de z (x fixe)
   murPorte(axe, fixe, de, a, centre, { larg = 1.8, id, m = '#f4f3f1', hPorte = 2.35, double = false } = {}) {
@@ -140,7 +142,7 @@ export class Monde {
     // voyant d'état au-dessus de la porte (rouge : verrouillée, vert : ouverte)
     const mv = new THREE.MeshStandardMaterial({ color: '#e04848', emissive: '#e04848', emissiveIntensity: 1.6 });
     const voyant = this.boite(larg - 0.1, 0.035, 0.27, mv, 0, hPorte + 0.03, 0, { parent: cadre, ombre: false });
-    const coll = X ? { minX: A, maxX: B, minZ: fixe - 0.15, maxZ: fixe + 0.15, actif: true } : { minX: fixe - 0.15, maxX: fixe + 0.15, minZ: A, maxZ: B, actif: true };
+    const coll = X ? { minX: A, maxX: B, minZ: fixe - 0.15, maxZ: fixe + 0.15, actif: true, mur: true } : { minX: fixe - 0.15, maxX: fixe + 0.15, minZ: A, maxZ: B, actif: true, mur: true };
     this.colliders.push(coll);
     const porte = { id, panneau, voyant, coll, ouverte: false, axe, base: centre, larg, centre: X ? new THREE.Vector3(centre, 1.4, fixe) : new THREE.Vector3(fixe, 1.4, centre) };
     if (id) this.portes[id] = porte;
@@ -393,11 +395,11 @@ export class Monde {
     this.fenetre(-3.6, 8.9, Math.PI, 3.2); this.fenetre(3.6, 8.9, Math.PI, 3.2); this.fenetre(-4, -8.9, 0, 2.6); this.fenetre(4, -8.9, 0, 2.6);
     for (const [x, z] of [[-5.3, 8.2], [5.3, 8.2], [-5.3, -8.2], [5.3, -8.2], [-3.1, -2.1], [3.1, -2.1]]) this.plante(x, z);
     this.banc(-4.9, 4.2, 2.2, 0.6); this.banc(4.9, 1.2, 2.2, 0.6);
-    this.affiche('Bienvenue', ['Rentrée des', 'apprenti·es', '2026-2027', '', 'Votre badge', "s'active en", 'chemin.'], -5.87, 1.6, 5.8, Math.PI / 2, CYAN);
+    this.affiche('Bienvenue', ['Rentrée des', 'apprenti·es', '2026-2027', '', 'Votre Passeport', 'alternance se', 'valide en chemin.'], -5.87, 1.6, 5.8, Math.PI / 2, CYAN);
     for (const z of [-6, -1, 4]) for (const x of [-3, 3]) this.dalle(x, z, 1.2, 1.2, z === -1 ? 7 : 5);
     this.dalle(0, 7, 1.2, 1.2, 4);
     // A08 · pôle alternance
-    this.places.karim = { x: -10.6, z: -2.4, angle: Math.PI / 2 };
+    this.places.alternance = { x: -10.6, z: -2.4, angle: Math.PI / 2 };
     this.bureau(-12.6, -2.4, 0.9, 2.2, { ecran: 3 }); this.chaise(-13.4, -2.4, Math.PI / 2, VIOLET, 'bureau');
     this.etagere(-14.7, -6.2, 3.2, Math.PI / 2); this.etagere(-14.7, 0.6, 2.4, Math.PI / 2);
     this.cyl(0.55, 0.04, matBois('#e9dfd0'), -8.6, 0.74, -6.6, { coll: true, seg: 40 }); this.cyl(0.04, 0.72, matMetal('#4a4c54', 0.4), -8.6, 0.36, -6.6); this.cyl(0.26, 0.02, matMetal('#4a4c54', 0.4), -8.6, 0.01, -6.6);
@@ -409,6 +411,7 @@ export class Monde {
     this.dalle(-10.5, -5.5, 1.2, 1.2, 6); this.dalle(-10.5, 0, 1.2, 1.2, 5);
     // B12 · salle de cours
     this.places.claire = { x: 12.7, z: -5.9, angle: -Math.PI / 2 };
+    this.places.etudiant1 = { x: 7.85, z: -7.95, angle: 0 }; this.places.etudiant2 = { x: 10.75, z: -7.95, angle: 0 }; this.places.etudiant3 = { x: 10.05, z: -0.05, angle: Math.PI };
     this.boite(0.08, 1.9, 3.3, mat('#17171c', { roughness: 0.3 }), 14.84, 1.85, -4, { ombre: false });
     this.plan(3.1, 1.74, new THREE.MeshBasicMaterial({ map: textureTexte([{ texte: 'Edusign', taille: 120, gras: true, y: 150, x: 70, couleur: '#fff' }, { texte: 'Sign and Scan', taille: 64, y: 280, x: 70, couleur: '#bfe9f5' }, { texte: 'Scannez le QR code', taille: 52, y: 410, x: 70, couleur: '#fff' }, { texte: 'pour émarger', taille: 52, y: 480, x: 70, couleur: '#fff' }], { l: 1024, h: 575, fond: '#12324a' }) }), 14.79, 1.85, -4, -Math.PI / 2);
     this.plan(1.05, 1.05, new THREE.MeshBasicMaterial({ map: textureQR() }), 14.78, 1.85, -3.2, -Math.PI / 2);
@@ -422,7 +425,7 @@ export class Monde {
     this.affiche('Edusign', ['À chaque cours', 'Signature', 'officielle', '', 'Puis QR code'], 10.5, 1.65, 0.87, Math.PI, '#12324a');
     this.dalle(9.5, -4, 1.2, 1.2, 6); this.dalle(12.8, -4, 1.2, 1.2, 4);
     // coordination pédagogique
-    this.places.ines = { x: 10.6, z: 5, angle: -Math.PI / 2 };
+    this.places.coordination = { x: 10.6, z: 5, angle: -Math.PI / 2 };
     this.bureau(12.5, 5, 0.9, 2.2, { ecran: 4 }); this.chaise(13.3, 5, -Math.PI / 2, CYAN, 'bureau');
     this.etagere(14.7, 2.6, 2.2, -Math.PI / 2); this.etagere(14.7, 7.6, 2.2, -Math.PI / 2);
     this.affiche('Malade ?', ['Arrêt de travail', '≠ certificat', 'médical', '', 'Précisez que', 'vous êtes', 'salarié·e.'], 9.5, 1.65, 1.13, 0, '#16161d');
@@ -505,7 +508,7 @@ export class Monde {
     this.ecranBorne = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.44), new THREE.MeshBasicMaterial());
     this.ecranBorne.position.set(0, 1.37, -5.27); this.ecranBorne.rotation.x = -0.35; this.groupe.add(this.ecranBorne);
     this.etatBorne(false);
-    this.enseigne('Borne d’activation', 'Votre badge d’apprenti·e', 0, -5.5, 0, VIOLET, 0.86).position.set(0, 0.72, -4.94);
+    this.enseigne('Borne de validation', 'Passeport alternance', 0, -5.5, 0, VIOLET, 0.86).position.set(0, 0.72, -4.94);
     // coin Hélène (ouest), salon
     this.places.helene = { x: -5, z: -1.4, angle: Math.PI / 4 };
     this.tapis(-5.2, -0.6, 5, 5.4, '#d9c6e2');
@@ -516,8 +519,8 @@ export class Monde {
     this.suspension(-5, 0.4, 2.15, '#b58a5c', 3);
     this.etagere(-8.7, -4, 2.6, Math.PI / 2, '#efe6da');
     this.affiche('Tutorat école', ['Un espace', 'de parole', 'confidentiel', '', '2 visites :', '28 février', '30 août'], -6.2, 1.65, -5.87, 0, VIOLET);
-    // coin Yanis (est), comptoir CFA
-    this.places.yanis = { x: 5, z: -1.7, angle: 0 };
+    // coin de la référente CFA (est), comptoir CFA
+    this.places.cfa = { x: 5, z: -1.7, angle: 0 };
     this.comptoir(5, -0.75, 3, 0.7, '#ffffff', CYAN);
     this.poste(this.bloc(5.95, 1.1, -0.8, Math.PI), { extras: false });
     this.boite(0.22, 0.04, 0.31, matLaque('#ffffff', 0.5), 4.1, 1.12, -0.72).rotation.y = -0.15;
@@ -532,11 +535,11 @@ export class Monde {
     this.interactifs.push({ type: 'borne', id: 'borne', pos: new THREE.Vector3(0, 1.3, -5.0) });
   }
 
-  etatBorne(prete, activee = false) {
+  etatBorne(prete, activee = false, noms = []) {
     if (!this.ecranBorne) return;
     const t = textureTexte([
-      { texte: activee ? 'Badge activé' : prete ? 'Borne prête' : 'En attente', taille: 110, gras: true, y: 200, x: 512, align: 'center', couleur: '#fff' },
-      { texte: activee ? 'Bienvenue !' : prete ? 'Saisissez vos 3 repères' : 'Rencontrez Hélène et Yanis', taille: 62, y: 390, x: 512, align: 'center', couleur: '#fff' },
+      { texte: activee ? 'Passeport validé' : prete ? 'Borne prête' : 'En attente', taille: activee ? 96 : 110, gras: true, y: 200, x: 512, align: 'center', couleur: '#fff' },
+      { texte: activee ? 'Bienvenue !' : prete ? 'Saisissez vos 3 repères' : noms.length ? `Rencontrez ${noms.join(' et ')}` : 'Rencontrez vos interlocutrices', taille: 62, y: 390, x: 512, align: 'center', couleur: '#fff' },
     ], { l: 1024, h: 626, fond: activee ? '#1f9d5c' : prete ? VIOLET : '#3a3a44' });
     this.ecranBorne.material.map = t; this.ecranBorne.material.needsUpdate = true;
   }

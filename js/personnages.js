@@ -155,14 +155,22 @@ export function creerAvatar(p) {
   // --- jambes, bassin, chaussures
   const ecart = 0.088;
   boule(1, L.jupe ? 0.14 : 0.162, 0.1, L.jupe ? 0.095 : 0.108, bas, 0, 0.88, -0.004, corps, 24);
-  if (L.jupe) {
+  if (L.assis) { // assis (étudiants) : bassin à hauteur d'assise, cuisses vers l'avant, jambes à la verticale
+    corps.position.y = -0.37 * ech;
+    for (const s of [-1, 1]) {
+      add(new THREE.CylinderGeometry(0.082, 0.066, 0.46, 18), bas, s * ecart, 0.85, 0.2, corps).rotation.x = Math.PI / 2;
+      boule(0.064, 1, 1, 1, bas, s * ecart, 0.85, 0.43, corps, 16);
+      add(new THREE.CylinderGeometry(0.06, 0.048, 0.47, 16), bas, s * ecart, 0.61, 0.44, corps);
+      boule(1, 0.046, 0.04, 0.122, cuir, s * (ecart + 0.004), 0.408, 0.49, corps, 18).rotation.y = s * 0.12;
+    }
+  } else if (L.jupe) {
     const jupe = add(tour([[0.118, 0.5], [0.132, 0.62], [0.156, 0.8], [0.162, 0.9], [0.15, 0.97]], 32), bas, 0, 0, 0, corps); jupe.scale.z = 0.7; jupe.material = std(L.bas, { roughness: 0.85, bumpMap: tisBump, bumpScale: 0.2, side: THREE.DoubleSide });
     const collant = std('#1f1b22', { roughness: 0.6 });
     for (const s of [-1, 1]) add(tour([[0.03, 0.06], [0.031, 0.12], [0.047, 0.32], [0.042, 0.47], [0.046, 0.6]], 16), collant, s * (ecart - 0.012), 0, 0, corps);
   } else {
     for (const s of [-1, 1]) { const j = add(tour([[0.058, 0.05], [0.058, 0.1], [0.063, 0.3], [0.066, 0.47], [0.08, 0.7], [0.086, 0.86], [0.07, 0.93]], 18), bas, s * ecart, 0, 0, corps); j.rotation.z = s * 0.012; }
   }
-  for (const s of [-1, 1]) { boule(1, 0.046, 0.04, 0.122, cuir, s * (ecart + 0.004), 0.038, 0.045, corps, 18).rotation.y = s * 0.12; boule(1, 0.04, 0.05, 0.05, cuir, s * (ecart + 0.002), 0.05, -0.02, corps, 12); }
+  if (!L.assis) for (const s of [-1, 1]) { boule(1, 0.046, 0.04, 0.122, cuir, s * (ecart + 0.004), 0.038, 0.045, corps, 18).rotation.y = s * 0.12; boule(1, 0.04, 0.05, 0.05, cuir, s * (ecart + 0.002), 0.05, -0.02, corps, 12); }
 
   // --- buste (pivote autour de la taille)
   const PIV = 1.0, buste = new THREE.Group(); buste.position.y = PIV; corps.add(buste);
@@ -243,9 +251,16 @@ export function creerAvatar(p) {
     for (const s of [-1, 1]) add(piece(18, 8, (u, v) => { const b = 0.45 - 0.55 * lisse(0, 0.32, u) - 0.25 * lisse(0.5, 1, u); return [s * (0.75 + u * 1.9), b + v * (0.74 - b)]; }, 1.014), cheveux, 0, 0, 0, tete);
   } else {
     add(calotte(-0.44, Math.PI * 0.5, (dx, dy) => 1.05 + 0.035 * lisse(-0.1, 0.7, dy), 0.006), cheveux, 0, 0, 0, tete);
-    if (C === 'chignon') { boule(0.046, 1, 0.95, 1, cheveux, 0, 0.055, -0.098, tete, 18); add(piece(16, 6, (u, v) => [Math.PI + (u - 0.5) * 2.6, -0.05 - v * 0.42], 1.05), cheveux, 0, 0, 0, tete); }
+    if (C === 'queue') { // queue de cheval : cheveux tirés, attache et mèche qui retombe dans le dos
+      boule(0.03, 1, 0.9, 1, cheveux, 0, 0.02, -0.112, tete, 16);
+      add(new THREE.TorusGeometry(0.017, 0.004, 6, 16), std(melange(L.cheveux, '#000000', 0.55), { roughness: 0.6 }), 0, 0.006, -0.128, tete, false).rotation.x = Math.PI / 2.4;
+      const meche = add(new THREE.CylinderGeometry(0.032, 0.012, 0.36, 16), cheveux, 0, -0.16, -0.15, tete); meche.rotation.x = 0.17; meche.scale.z = 0.85;
+      boule(0.034, 1, 1.3, 0.9, cheveux, 0, -0.01, -0.135, tete, 14);
+    } else if (C === 'chignon') { boule(0.046, 1, 0.95, 1, cheveux, 0, 0.055, -0.098, tete, 18); add(piece(16, 6, (u, v) => [Math.PI + (u - 0.5) * 2.6, -0.05 - v * 0.42], 1.05), cheveux, 0, 0, 0, tete); }
     else {
-      const bas2 = C === 'long' ? [[0.079, -0.31], [0.092, -0.24], [0.096, -0.15], [0.094, -0.07], [0.086, 0.0], [0.08, 0.035]] : [[0.07, -0.125], [0.086, -0.1], [0.092, -0.05], [0.087, 0.0], [0.08, 0.035]];
+      const bas2 = C === 'long' ? [[0.079, -0.31], [0.092, -0.24], [0.096, -0.15], [0.094, -0.07], [0.086, 0.0], [0.08, 0.035]]
+        : C === 'milong' ? [[0.08, -0.215], [0.092, -0.17], [0.096, -0.1], [0.092, -0.04], [0.086, 0.0], [0.08, 0.035]] // mi-longs, aux épaules
+          : [[0.07, -0.125], [0.086, -0.1], [0.092, -0.05], [0.087, 0.0], [0.08, 0.035]];
       const rideau = add(tour(bas2, 36, 0.92, TAU - 1.84), cheveux, 0, 0, -0.004, tete); rideau.scale.z = 1.2;
     }
     if (L.frange) add(piece(20, 6, (u, v) => [(u - 0.5) * 2.2, 0.66 - v * 0.42 + Math.abs(u - 0.5) * 0.1], 1.085), cheveux, 0, 0, 0, tete);
@@ -261,7 +276,10 @@ export function creerAvatar(p) {
     add(new THREE.BoxGeometry(0.022, 0.0028, 0.0028), ml, 0, yO + 0.004, zL, tete, false);
   }
 
-  const tag = etiquette(p.nom, p.role); tag.position.y = 1.72 * ech + 0.26; g.add(tag); tag.dessiner('nouveau');
+  // étiquette (nom, rôle) : pas pour les figurants
+  const tag = p.nom ? etiquette(p.nom, p.role) : { dessiner() { }, visible: false, position: new THREE.Vector3() };
+  if (p.nom) { tag.position.y = 1.72 * ech + 0.26; g.add(tag); tag.dessiner('nouveau'); }
+  const baseEp = L.assis ? -0.42 : 0, baseCo = L.assis ? -1.05 : -0.14; // assis : avant-bras posés devant soi
 
   let t = Math.random() * 10, clign = 2 + Math.random() * 3, ouverture = 0, geste = 0, lacetTete = 0, tangTete = 0;
   const avatar = {
@@ -289,9 +307,9 @@ export function creerAvatar(p) {
       geste += ((parle ? 1 : 0) - geste) * Math.min(1, dt * 4);
       for (const b of bras) {
         const ph = b.s > 0 ? 0 : 1.7;
-        b.epaule.rotation.x = geste * (-0.22 - Math.sin(t * 2.1 + ph) * 0.1) + Math.sin(t * 0.7 + ph) * 0.012;
+        b.epaule.rotation.x = baseEp + geste * (-0.22 - Math.sin(t * 2.1 + ph) * 0.1) + Math.sin(t * 0.7 + ph) * 0.012;
         b.epaule.rotation.z = b.s * (0.1 + geste * 0.05);
-        b.coude.rotation.x = -0.14 - geste * (b.s > 0 ? 1.0 + Math.sin(t * 2.7) * 0.28 : 0.55 + Math.sin(t * 1.9 + 1) * 0.3);
+        b.coude.rotation.x = baseCo - geste * (b.s > 0 ? 1.0 + Math.sin(t * 2.7) * 0.28 : 0.55 + Math.sin(t * 1.9 + 1) * 0.3);
         b.coude.rotation.z = -b.s * geste * 0.25;
       }
       // bouche

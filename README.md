@@ -3,11 +3,15 @@
 [Jouer en ligne](https://practice-imtbs.github.io/premier-jour/) · [Dépôt GitHub](https://github.com/practice-imtbs/premier-jour)
 
 Jeu sérieux **à la première personne** pour la rentrée des apprenti·es d'IMT Business School (Career Center · PracTice).
-Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.3.0, novembre 2026.
+Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.4.0, novembre 2026 (retours du Career Center du 16/11/2026, voir plus bas).
 
-L'apprenti·e vit son premier jour : il ou elle se déplace en 3D sur le campus, dans l'entreprise Nexus puis dans l'espace d'accompagnement, **échange de vive voix avec 9 personnages**, répond à leurs questions (25 au total) et active son badge à la borne finale. Durée visée : 20 à 30 minutes, sur ordinateur.
+Positionnement : une version **solo**, à jouer au casque, en rattrapage pour les apprenti·es absent·es à la rentrée ou en complément du jeu collectif d'accueil.
+
+L'apprenti·e vit son premier jour : il ou elle se déplace en 3D sur le campus, dans l'entreprise Nexus puis dans l'espace d'accompagnement, **échange de vive voix avec 9 personnages**, répond à leurs questions (25 au total, lues à voix haute) et valide son **Passeport alternance** à la borne finale. Durée visée : 20 à 30 minutes, sur ordinateur.
 
 ## Lancer le jeu
+
+Lien de démonstration : ajouter `?lieu=nexus` ou `?lieu=accompagnement` à l'adresse pour commencer une nouvelle partie directement dans ce lieu.
 
 ```sh
 cd PremierJour3D
@@ -27,11 +31,13 @@ Sans clé, le jeu fonctionne entièrement, seules les questions libres sont masq
 
 | Élément | Fonctionnement |
 |---|---|
-| Répliques scénarisées (97) | Voix **pré-générées** en MP3 avec `google/gemini-3.8-flash-tts`, une voix par personnage. Aucun coût pendant le jeu. |
+| Répliques scénarisées (166) | Voix **pré-générées** en MP3 avec `google/gemini-3.8-flash-tts`, une voix par personnage. Les répliques qui citent un prénom réel, et toutes celles des trois interlocutrices réelles, existent en deux versions (`_bachelor`, `_pge`). Aucun coût pendant le jeu. |
+| Énoncés lus | Au début de chaque épreuve, le personnage lit la question (pas les réponses proposées). |
+| Prononciation | `PRONONCIATION` dans `contenu/contenu.js` : « Edusign » est toujours dit « édu-saïne », CLOE « Cloé », les sigles sont épelés. Appliqué aux voix pré-générées et aux réponses libres. |
 | Questions libres | L'apprenti·e écrit (ou dicte) sa question. `google/gemini-3.8-flash` répond dans le rôle du personnage, uniquement à partir de `contenu/connaissances.js`, puis `gemini-3.8-flash-lite-tts` vocalise la réponse. |
 | Secours | Si un fichier audio manque, la synthèse vocale du navigateur prend le relais. |
 | Musique d'ambiance | Une piste instrumentale par lieu, **pré-générée** en MP3 avec `google/lyria-3-pro-preview`. Elle s'efface pendant les dialogues et se coupe avec le bouton « Musique ». |
-| Attestation | À l'activation du badge : attestation au nom de l'apprenti·e (prénom et nom saisis sur place), imprimable ou enregistrable en PDF, suivie de la carte des contacts du programme. |
+| Attestation | À la validation du Passeport alternance : attestation au nom de l'apprenti·e (prénom et nom saisis sur place), imprimable ou enregistrable en PDF, suivie de la carte des contacts du programme. |
 | Progression | Enregistrée sur l'appareil (`localStorage`), aucun compte. |
 
 ### Générer ou régénérer les voix
@@ -95,10 +101,22 @@ Le jeu est un site statique (GitHub Pages convient). La clé OpenRouter ne doit 
 
 Le relais n'accepte que les origines autorisées, limite la longueur des questions, construit lui-même la consigne du personnage et applique une limite simple par adresse IP. Pour un amphi complet, ajouter une règle de limitation de débit Cloudflare et un plafond de dépense sur la clé OpenRouter.
 
+## Retours du Career Center (16/11/2026), intégrés en 0.4.0
+
+- Conversation possible de plus loin (4,2 m) et sans être pile en face ; les murs et portes fermées empêchent toujours de parler à travers.
+- Vrais prénoms selon le programme, voix et apparences correspondantes (voir « Personnages » ci-dessous).
+- « Badge » remplacé par **Passeport alternance**, pour éviter la confusion avec la carte étudiante remise le même jour.
+- Contrat d'objectif sur **CLOE**.
+- Rémunération incomplète : bulletin → tuteur ou RH → référente CFA → pôle alternance de l'école **en dernier recours** → trace écrite.
+- Questions lues à voix haute ; prononciation constante d'« Edusign ».
+- Trois étudiants assis en salle B12 (décor).
+- Non retenu pour l'instant : clonage des voix et avatars ressemblants à partir de photos (chantier à part).
+
 ## Points à valider avant diffusion
 
 - **Contenu** : il reprend le `content.json` de *L'Entreprise Mystère* (2026-2027). Les questions q21 et q24, signalées comme trop absolues dans la fiche pédagogique du *Dernier badge*, n'ont pas été reprises. Dates, contacts et procédures restent à relire avec le Career Center.
-- **Personnages** : Nora, Karim, Claire, Inès, Samuel, Léa, Marc, Hélène et Yanis sont fictifs. L'annuaire du carnet contient les contacts réels de la source.
+- **Personnages** : trois rôles portent le prénom des vraies interlocutrices, selon le programme choisi (`PRENOMS` dans `contenu/contenu.js`) : pôle alternance (Lucie en Bachelor, Géraldine en PGE), coordination pédagogique (Cassandra, Sandrine), référente CFA (Typhaine, Adeline). Leur apparence suit les indications du Career Center. Nora (accueil), Claire (enseignante), Hélène (tutrice école), Samuel, Léa et Marc (Nexus) restent fictifs. À faire : prévenir Cassandra, Sandrine, Typhaine et Adeline, absentes de la réunion du 16/11/2026.
+- **CLOE** : le contrat d'objectif se remplit sur CLOE (et non plus 1 Jeune 1 Alternance). Le chemin « Carnet de liaison → Contrat d'objectif » est repris de l'ancienne plateforme, à confirmer ; pas encore de lien vers le site.
 - **IA** : les réponses libres sont cadrées mais non relues ; les questions saisies transitent par OpenRouter et Google. Une mention invite à ne saisir aucune donnée personnelle. À arbitrer avec la référence RGPD avant un usage en amphi.
 - **Voix** : voix de synthèse Google ; le signaler aux apprenti·es fait partie des bonnes pratiques.
 - **Durée et difficulté** : à mesurer avec de vrais apprenti·es.

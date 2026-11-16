@@ -1,6 +1,6 @@
 // PREMIER JOUR · orchestration du jeu (état, déplacements, dialogues, épreuves, carnet).
 import * as THREE from 'three';
-import { META, LIEUX, PERSONNAGES, BORNE, CALENDRIER, ANNUAIRE, BONS_A_SAVOIR, RELANCES } from '../contenu/contenu.js';
+import { META, LIEUX, PERSONNAGES, FIGURANTS, BORNE, CALENDRIER, ANNUAIRE, BONS_A_SAVOIR, RELANCES, incarner, enonceParle } from '../contenu/contenu.js';
 import { CONFIG } from '../config.js';
 import { Monde, deplacer } from './monde.js';
 import { creerAvatar } from './personnages.js';
@@ -8,8 +8,8 @@ import { Voix, Musique } from './audio.js';
 import { creerRendu } from './rendu.js';
 
 const $ = (s) => document.querySelector(s);
-const CLE = 'imtbs_premier_jour_v1';
-const HAUTEUR = 1.62, PORTEE = 2.7;
+const CLE = 'imtbs_premier_jour_v2'; // v2 : rôles renommés (prénoms réels selon le programme)
+const HAUTEUR = 1.62, PORTEE = 4.2; // portée pour parler à quelqu'un ou utiliser une porte, en mètres
 
 // élément DOM : el('button', {class:'btn', onclick}, 'texte' | [enfants])
 function el(tag, attrs = {}, enfants = []) {
@@ -29,6 +29,10 @@ const aff = (t) => t.replace(/\b(?:[A-Z] )+[A-Z]\b/g, (m) => m.replace(/ /g, '')
 // ------------------------------------------------------------------ état
 const etatInitial = () => ({ v: 1, prenom: '', nom: '', programme: 'pge', lieu: 'campus', persos: {}, notes: [], badge: false, temps: 0, erreurs: 0 });
 let etat = etatInitial();
+// personnages vus par l'apprenti·e : prénoms, voix et apparences du programme choisi
+let PERSOS = PERSONNAGES.map(p => incarner(p, etat.programme));
+const incarnerTout = () => { PERSOS = PERSONNAGES.map(p => incarner(p, etat.programme)); };
+const perso = (id) => PERSOS.find(p => p.id === id);
 const fiche = (id) => (etat.persos[id] ??= { vu: false, etape: 0, valide: false, poses: [] });
 const valide = (id) => Boolean(etat.persos[id]?.valide);
 const sauver = () => { try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch { /* stockage indisponible */ } };
@@ -48,17 +52,24 @@ const camera = new THREE.PerspectiveCamera(66, 1, 0.08, 80); camera.rotation.ord
 const rendu = creerRendu(renderer, scene, camera);
 const monde = new Monde(scene);
 const voix = new Voix(), musique = new Musique();
-let avatars = [];
+let avatars = [], figurants = [];
 const joueur = { pos: new THREE.Vector3(0, HAUTEUR, 6), lacet: 0, tangage: 0 };
 function taille() { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); rendu.taille(innerWidth, innerHeight); }
 addEventListener('resize', taille); taille();
 
 // ------------------------------------------------------------------ lieux
 function construireLieu(lieu) {
-  avatars.forEach(a => scene.remove(a.groupe)); avatars = [];
+  [...avatars, ...figurants].forEach(a => scene.remove(a.groupe)); avatars = []; figurants = [];
   const { depart } = monde.construire(lieu);
   joueur.pos.set(depart.x, HAUTEUR, depart.z); joueur.lacet = depart.angle; joueur.tangage = 0;
-  for (const p of PERSONNAGES.filter(x => x.lieu === lieu)) {
+  // étudiants assis en salle de cours : décor, sans dialogue
+  for (const f of FIGURANTS.filter(x => x.lieu === lieu && monde.places[x.id])) {
+    const a = creerAvatar(f), pl = monde.places[f.id];
+    a.groupe.position.set(pl.x, 0, pl.z); a.groupe.rotation.y = a.angleBase = pl.angle;
+    scene.add(a.groupe); figurants.push(a);
+    monde.colliders.push({ minX: pl.x - 0.25, maxX: pl.x + 0.25, minZ: pl.z - 0.25, maxZ: pl.z + 0.25, actif: true });
+  }
+  for (const p of PERSOS.filter(x => x.lieu === lieu)) {
     const a = creerAvatar(p), pl = monde.places[p.id];
     a.groupe.position.set(pl.x, 0, pl.z); a.groupe.rotation.y = a.angleBase = pl.angle; a.perso = p;
     scene.add(a.groupe); avatars.push(a);
@@ -69,7 +80,7 @@ function construireLieu(lieu) {
   rendu.sceneChangee();
   majMonde(true);
 }
-const restants = (lieu, sauf = []) => PERSONNAGES.filter(p => p.lieu === lieu && !valide(p.id) && !sauf.includes(p.id));
+const restants = (lieu, sauf = []) => PERSOS.filter(p => p.lieu === lieu && !valide(p.id) && !sauf.includes(p.id));
 
 function majMonde(immediat = false) {
   const l = etat.lieu;
@@ -79,7 +90,7 @@ function majMonde(immediat = false) {
   } else if (l === 'nexus') {
     monde.ouvrirPorte('reunion', true); monde.ouvrirPorte('rh', true);
     monde.ouvrirPorte('sortie', restants('nexus').length === 0, true);
-  } else monde.etatBorne(restants('accompagnement').length === 0, etat.badge);
+  } else monde.etatBorne(restants('accompagnement').length === 0, etat.badge, PERSOS.filter(p => p.lieu === 'accompagnement').map(p => p.nom));
   if (immediat) for (const p of Object.values(monde.portes)) if (p.cible !== undefined) p.panneau.position[p.axe === 'x' ? 'x' : 'z'] = p.base + p.cible;
   for (const a of avatars) a.etiquette.dessiner(valide(a.id) ? 'valide' : fiche(a.id).vu ? 'vu' : 'nouveau');
   majHud();
@@ -87,19 +98,19 @@ function majMonde(immediat = false) {
 
 function objectif() {
   const l = etat.lieu, r = restants(l).map(p => p.nom);
-  if (etat.badge) return 'Badge activé. Vous pouvez continuer à explorer et à poser vos questions.';
+  if (etat.badge) return 'Passeport alternance validé. Vous pouvez continuer à explorer et à poser vos questions.';
   if (l === 'campus') {
     if (!valide('nora')) return 'Allez voir Nora, à l’accueil, juste devant vous.';
     return r.length ? `Faites le tour du campus : ${r.join(', ')}.` : 'Campus bouclé ! Prenez la porte vitrée du fond, direction Nexus.';
   }
   if (l === 'nexus') return r.length ? `Présentez-vous à ${r.join(', ')}.` : 'Rejoignez l’espace d’accompagnement : porte à droite de l’entrée.';
-  return r.length ? `Échangez avec ${r.join(' et ')}.` : 'Activez votre badge à la borne, au fond de la pièce.';
+  return r.length ? `Échangez avec ${r.join(' et ')}.` : 'Validez votre Passeport alternance à la borne, au fond de la pièce.';
 }
 function majHud() {
   $('#hudLieu').textContent = LIEUX[etat.lieu].nom;
   $('#hudObjectif').textContent = objectif();
-  const n = PERSONNAGES.filter(p => valide(p.id)).length;
-  $('#hudProgres').textContent = n; $('#hudJauge').style.width = `${(n / PERSONNAGES.length) * 100}%`;
+  const n = PERSOS.filter(p => valide(p.id)).length;
+  $('#hudProgres').textContent = n; $('#hudJauge').style.width = `${(n / PERSOS.length) * 100}%`;
 }
 
 let mode = 'accueil'; // accueil | jeu | dialogue | fenetre | transition
@@ -150,6 +161,21 @@ document.addEventListener('pointerlockchange', () => { $('#souris').hidden = mod
 
 // ------------------------------------------------------------------ interactions
 let cible = null;
+// vrai si un mur ou une porte fermée coupe le segment joueur -> (x, z) (test segment / boîte)
+function murEntre(x, z) {
+  const x0 = joueur.pos.x, z0 = joueur.pos.z, dx = x - x0, dz = z - z0;
+  for (const c of monde.colliders) {
+    if (!c.mur || !c.actif) continue;
+    let t0 = 0, t1 = 1;
+    for (const [p, d, mn, mx] of [[x0, dx, c.minX, c.maxX], [z0, dz, c.minZ, c.maxZ]]) {
+      if (Math.abs(d) < 1e-9) { if (p < mn || p > mx) { t0 = 2; break; } continue; }
+      let a = (mn - p) / d, b = (mx - p) / d; if (a > b) [a, b] = [b, a];
+      t0 = Math.max(t0, a); t1 = Math.min(t1, b); if (t0 > t1) break;
+    }
+    if (t0 <= t1 && t1 > 0.02 && t0 < 0.98) return true;
+  }
+  return false;
+}
 function chercherCible() {
   const avant = new THREE.Vector3(-Math.sin(joueur.lacet), 0, -Math.cos(joueur.lacet));
   let meilleur = null, score = -1;
@@ -157,7 +183,8 @@ function chercherCible() {
     const dx = it.pos.x - joueur.pos.x, dz = it.pos.z - joueur.pos.z, d = Math.hypot(dx, dz);
     if (d > PORTEE) continue;
     const face = (dx * avant.x + dz * avant.z) / (d || 1);
-    if (face < 0.45) continue;
+    if (face < (d < 1.6 ? 0.2 : 0.55)) continue; // de près, inutile d'être pile en face
+    if (it.type === 'perso' && murEntre(it.pos.x, it.pos.z)) continue;
     const s = face - d * 0.15; if (s > score) { score = s; meilleur = it; }
   }
   return meilleur;
@@ -170,7 +197,7 @@ function libelleCible(it) {
   }
   const r = restants('accompagnement');
   if (etat.badge) return { texte: 'Revoir mon attestation', ok: true };
-  return r.length ? { texte: `Borne en attente · encore ${r.map(p => p.nom).join(' et ')}`, ok: false } : { texte: 'Activer mon badge', ok: true };
+  return r.length ? { texte: `Borne en attente · encore ${r.map(p => p.nom).join(' et ')}`, ok: false } : { texte: 'Valider mon Passeport alternance', ok: true };
 }
 function interagir() {
   if (!cible) return;
@@ -204,7 +231,7 @@ function ecrire(t, prefixe = '') {
 async function dire(idRep, t, prefixe) {
   const p = dlg; if (!p) return;
   $('#dlgPasser').hidden = false; $('#dlgPastille').classList.add('parle');
-  const lecture = voix.jouer(`${p.perso.id}_${idRep}`, t);
+  const lecture = voix.jouer(p.perso.cleAudio(idRep), t);
   ecrire(t, prefixe);
   await lecture;
   if (dlg === p && !voix.active) { $('#dlgPasser').hidden = true; $('#dlgPastille').classList.remove('parle'); }
@@ -230,7 +257,9 @@ function fermerDialogue() {
 $('#dlgFermer').onclick = fermerDialogue;
 $('#dlgPasser').onclick = () => voix.stop();
 
+let vue = 0; // change à chaque nouveau contenu du panneau : évite qu'une lecture différée tombe au mauvais moment
 function menu() {
+  vue++;
   const p = dlg.perso, f = fiche(p.id);
   zone.replaceChildren(
     el('p', { class: 'choix-titre' }, 'Vos questions'),
@@ -280,7 +309,7 @@ async function questionLibre(e) {
     p.historique.push({ role: 'user', content: q }, { role: 'assistant', content: d.reponse });
     // on affiche tout de suite, la voix suit dès qu'elle est prête
     texte.classList.remove('attente'); voix.duree = 0.6; ecrire(d.reponse, `Vous : ${q}`);
-    const a = await fetch(`${CONFIG.relais}/api/voix`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ personnage: p.perso.id, texte: d.reponse }) });
+    const a = await fetch(`${CONFIG.relais}/api/voix`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ personnage: p.perso.id, programme: etat.programme, texte: d.reponse }) });
     if (a.ok && dlg === p && !voix.active) {
       $('#dlgPasser').hidden = false; $('#dlgPastille').classList.add('parle');
       await voix.jouerBlob(await a.blob(), d.reponse);
@@ -294,12 +323,18 @@ async function questionLibre(e) {
 }
 
 // ------------------------------------------------------------------ épreuves
-function lancerEpreuves() {
-  const p = dlg.perso, f = fiche(p.id);
-  if (f.etape === 0) dire('defi', p.defi); else { voix.stop(); texte.textContent = 'Reprenons où nous en étions.'; }
-  epreuve(f.etape);
+// le personnage lit l'énoncé (sans les réponses proposées)
+const lireEnonce = (i) => dire(`enonce${i + 1}`, enonceParle(dlg.perso.epreuves[i]));
+async function lancerEpreuves() {
+  const p = dlg.perso, f = fiche(p.id), i = f.etape;
+  epreuve(i, i > 0);
+  if (i > 0) return;
+  const v = vue;
+  await dire('defi', p.defi);
+  if (v === vue && dlg?.perso === p) lireEnonce(0);
 }
-function epreuve(i) {
+function epreuve(i, lire = true) {
+  vue++;
   const p = dlg.perso, f = fiche(p.id), e = p.epreuves[i]; dlg.erreurs = 0;
   const sel = []; // indices choisis (ordre conservé pour le type 'ordre')
   const opts = e.type === 'vf' ? ['Vrai', 'Faux'] : e.options;
@@ -325,6 +360,7 @@ function epreuve(i) {
     voix.bip(480, 0.04, 0.03); peindre();
   }
   function verifier() {
+    vue++;
     let ok;
     if (e.type === 'vf') ok = (sel[0] === 0) === e.correct;
     else if (ordre) ok = sel.every((k, n) => k === e.correct[n]);
@@ -353,12 +389,14 @@ function epreuve(i) {
     el('p', { class: 'enonce' }, e.enonce),
     el('div', { class: 'grille' }, boutons), indice, barre,
   );
+  if (lire) lireEnonce(i);
 }
 function conclure() {
+  vue++;
   const p = dlg.perso;
   dire('fin', p.fin);
   const fini = restants(p.lieu).length === 0;
-  toast(fini ? (p.lieu === 'accompagnement' ? 'La borne est prête : activez votre badge !' : 'Lieu terminé : la porte de sortie est déverrouillée.') : `${p.nom} : étape validée. Carnet mis à jour.`);
+  toast(fini ? (p.lieu === 'accompagnement' ? 'La borne est prête : validez votre Passeport alternance !' : 'Lieu terminé : la porte de sortie est déverrouillée.') : `${p.nom} : étape validée. Carnet mis à jour.`);
   zone.replaceChildren(el('div', { class: 'barre' }, [
     el('span', { class: 'etape', style: 'color:#8fe6b6' }, `✓ Étape validée avec ${p.nom}`), el('span', { class: 'pousse' }),
     el('button', { type: 'button', class: 'btn', onclick: () => { voix.stop(); texte.textContent = `${p.nom} vous écoute. Une autre question ?`; menu(); } }, 'Poser une autre question'),
@@ -385,7 +423,7 @@ function contacts() {
 }
 function notes() {
   if (!etat.notes.length) return el('p', { class: 'vide' }, 'Vos notes apparaîtront ici au fil de vos rencontres.');
-  return el('ul', { class: 'notes' }, etat.notes.map(n => el('li', {}, [el('b', {}, `${PERSONNAGES.find(p => p.id === n.p).nom} · `), n.t])));
+  return el('ul', { class: 'notes' }, etat.notes.map(n => el('li', {}, [el('b', {}, `${perso(n.p)?.nom ?? ''} · `), n.t])));
 }
 const frise = () => el('ol', { class: 'frise' }, CALENDRIER.map(c => el('li', {}, [el('b', {}, c.quand), el('div', {}, [c.quoi, el('small', {}, c.si)])])));
 
@@ -401,7 +439,7 @@ function ouvrirCarnet(onglet = 'notes') {
   const corps = el('div');
   const barre = el('div', { class: 'onglets', role: 'tablist' }, Object.entries(vues).map(([k, [nom]]) => el('button', { type: 'button', role: 'tab', 'data-k': k, onclick: () => montrer(k) }, nom)));
   function montrer(k) { barre.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.k === k)); corps.replaceChildren(vues[k][1]()); }
-  ouvrirFenetre([el('h2', { html: 'Mon carnet<span>.</span>' }), el('p', { class: 'sous' }, `${etat.prenom} · ${prog} · ${PERSONNAGES.filter(p => valide(p.id)).length} étape(s) validée(s) sur ${PERSONNAGES.length}`), barre, corps], 'Carnet');
+  ouvrirFenetre([el('h2', { html: 'Mon carnet<span>.</span>' }), el('p', { class: 'sous' }, `${etat.prenom} · ${prog} · ${PERSOS.filter(p => valide(p.id)).length} étape(s) validée(s) sur ${PERSOS.length}`), barre, corps], 'Carnet');
   montrer(onglet);
 }
 function ouvrirAide() {
@@ -436,11 +474,11 @@ function ouvrirBorne() {
       const ok = champs.map((c, i) => c.value.trim() === BORNE.champs[i].reponse);
       champs.forEach((c, i) => { c.classList.toggle('ok', ok[i]); c.classList.toggle('ko', !ok[i]); });
       if (ok.every(Boolean)) { etat.badge = true; etat.dateBadge = Date.now(); sauver(); majMonde(); voix.succes(); setTimeout(ouvrirFin, 700); }
-      else { voix.erreur(); msg.textContent = `Ce n'est pas encore ça. Vérifiez le repère donné par ${BORNE.champs.filter((_, i) => !ok[i]).map(c => c.source).join(' et ')}.`; }
+      else { voix.erreur(); msg.textContent = `Ce n'est pas encore ça. Vérifiez le repère donné par ${BORNE.champs.filter((_, i) => !ok[i]).map(c => perso(c.source).nom).join(' et ')}.`; }
     },
   }, [
-    el('div', { class: 'champs-borne' }, BORNE.champs.map((c, i) => el('label', {}, [el('span', {}, [c.label, el('small', {}, `Repère donné par ${c.source}`)]), champs[i]]))),
-    el('div', { class: 'barre' }, [el('button', { class: 'btn primaire', type: 'submit' }, 'Activer mon badge'), el('button', { class: 'btn', type: 'button', onclick: () => ouvrirCarnet('notes') }, 'Consulter mes notes')]),
+    el('div', { class: 'champs-borne' }, BORNE.champs.map((c, i) => el('label', {}, [el('span', {}, [c.label, el('small', {}, `Repère donné par ${perso(c.source).nom}`)]), champs[i]]))),
+    el('div', { class: 'barre' }, [el('button', { class: 'btn primaire', type: 'submit' }, 'Valider mon Passeport alternance'), el('button', { class: 'btn', type: 'button', onclick: () => ouvrirCarnet('notes') }, 'Consulter mes notes')]),
   ]);
   ouvrirFenetre([el('h2', { html: `${BORNE.titre}<span>.</span>` }), el('p', { class: 'sous' }, BORNE.consigne), form, msg], BORNE.titre);
 }
@@ -461,9 +499,9 @@ function ouvrirFin() {
       el('img', { src: 'assets/logo-imtbs.png', alt: 'Institut Mines-Télécom Business School' }),
       el('div', {}, [
         el('p', { class: 'intitule' }, 'Attestation de parcours'), titulaire,
-        el('p', { class: 'ligne' }, `a suivi le parcours « ${META.titre} · ${META.sousTitre} » et activé son badge d’apprenti·e.`),
+        el('p', { class: 'ligne' }, `a suivi le parcours « ${META.titre} · ${META.sousTitre} » et validé son Passeport alternance.`),
         el('p', { class: 'ligne' }, `${prog} · ${META.annee} · le ${date}`),
-        el('span', { class: 'etat' }, '✓ Badge d’alternance activé'),
+        el('span', { class: 'etat' }, '✓ Passeport alternance validé'),
       ]),
     ]),
     el('div', { class: 'identite sans-impression' }, [champ('prenom', 'Prénom', 24), champ('nom', 'Nom', 40)]),
@@ -516,6 +554,7 @@ function boucle() {
     a.maj(dt, Boolean(dlg && dlg.avatar === a && voix.active), niveau, joueur.pos, proche);
     a.etiquette.visible = !(dlg && dlg.avatar === a) && vTmp.distanceTo(joueur.pos) < 9;
   }
+  for (const a of figurants) a.maj(dt, false, 0, joueur.pos, false);
   monde.maj(dt);
   musique.maj(dt, mode !== 'dialogue');
   rendu.rendre(mode === 'accueil' || brut > 0.5 ? 0 : brut);
@@ -523,10 +562,14 @@ function boucle() {
 }
 
 // ------------------------------------------------------------------ démarrage
+// lien de démonstration : ?lieu=nexus ou ?lieu=accompagnement pour commencer directement dans un lieu
+const lieuDemo = (() => { const l = new URLSearchParams(location.search).get('lieu'); return LIEUX[l] ? l : null; })();
 async function demarrer(reprise) {
-  voix.deverrouiller(); musique.deverrouiller(reprise ? etat.lieu : 'campus');
+  incarnerTout();
+  const premier = reprise ? etat.lieu : (lieuDemo || 'campus');
+  voix.deverrouiller(); musique.deverrouiller(premier);
   $('#accueil').hidden = true; $('#hud').hidden = false; $('#viseur').hidden = false; $('#souris').hidden = false;
-  if (!reprise) { sauver(); await allerA('campus'); } else { construireLieu(etat.lieu); mode = 'jeu'; canvas.focus(); }
+  if (!reprise) { sauver(); await allerA(premier); } else { construireLieu(etat.lieu); mode = 'jeu'; canvas.focus(); }
 }
 $('#formDepart').addEventListener('submit', (e) => {
   e.preventDefault();

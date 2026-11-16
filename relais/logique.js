@@ -1,6 +1,6 @@
 // Logique commune au serveur local (outils/serveur-local.mjs) et au relais
 // Cloudflare Worker (relais/worker.js). La clé OpenRouter ne quitte jamais le serveur.
-import { META, PERSONNAGES } from '../contenu/contenu.js';
+import { META, PERSONNAGES, incarner, oral } from '../contenu/contenu.js';
 import { consigneSysteme } from '../contenu/connaissances.js';
 
 const OR = 'https://openrouter.ai/api/v1';
@@ -88,11 +88,12 @@ export async function synthese(cle, { texte, voix, ton, modele }) {
   return { audio: pcmVersWav(audio, m ? +m[1] : 24000), type: 'audio/wav' };
 }
 
-// { personnage, texte } -> { audio, type } avec la voix du personnage (modèle rapide).
+// { personnage, programme, texte } -> { audio, type } avec la voix du personnage (modèle rapide).
 export async function genererVoix(cle, corps) {
-  const p = PERSONNAGES.find(x => x.id === corps?.personnage);
-  if (!p) throw new ErreurRelais(400, 'Personnage inconnu.');
+  const brut = PERSONNAGES.find(x => x.id === corps?.personnage);
+  if (!brut) throw new ErreurRelais(400, 'Personnage inconnu.');
+  const p = incarner(brut, corps?.programme === 'bachelor' ? 'bachelor' : 'pge');
   const texte = propre(corps?.texte, MAX_TEXTE_VOIX);
   if (texte.length < 2) throw new ErreurRelais(400, 'Texte vide.');
-  return synthese(cle, { texte, voix: p.voix, ton: p.ton, modele: META.modeleVoixDirect });
+  return synthese(cle, { texte: oral(texte), voix: p.voix, ton: p.ton, modele: META.modeleVoixDirect });
 }

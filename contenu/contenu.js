@@ -38,24 +38,36 @@ export const LIEUX = {
     nom: 'Espace d’accompagnement',
     accroche: 'Le Career Center, pour les situations délicates',
     musique: 'Warm, reassuring background music for a quiet counselling lounge. Slow felt piano, soft strings and gentle ambient pads, around 70 bpm, no drums, tender, caring and hopeful. Instrumental only, no vocals, no lyrics, no spoken words. Steady and even dynamics from start to finish, no dramatic build-up, no abrupt ending, so that it can loop quietly as background music in a serious game.',
-    objectif: 'Échangez avec Hélène et Yanis, puis activez votre badge à la borne.',
+    objectif: 'Échangez avec votre tutrice école et votre référente CFA, puis validez votre Passeport alternance à la borne.',
     suite: null,
   },
 };
 
 // Types d'épreuve : 'choix' (une réponse), 'multi' (plusieurs), 'vf' (vrai/faux), 'ordre' (remise en ordre).
+// `enonce` est lu à voix haute au début de l'épreuve (sans les réponses proposées).
 // `bravo` est la réplique parlée de validation ; `retenir` est la note ajoutée au carnet.
+
+// Trois rôles sont tenus par les vraies interlocutrices de l'école (prénoms seulement, retours du
+// Career Center du 16/11/2026). Le prénom, la voix et l'apparence dépendent du programme choisi.
+// Dans les textes, {alternance}, {coordination} et {cfa} sont remplacés par le prénom du programme ;
+// les répliques concernées sont enregistrées en deux versions (suffixe _bachelor ou _pge).
+export const PROGRAMMES = ['bachelor', 'pge'];
+export const PRENOMS = {
+  alternance: { bachelor: 'Lucie', pge: 'Géraldine' },
+  coordination: { bachelor: 'Cassandra', pge: 'Sandrine' },
+  cfa: { bachelor: 'Typhaine', pge: 'Adeline' },
+};
 
 export const PERSONNAGES = [
   // ------------------------------------------------------------------ CAMPUS
   {
     id: 'nora', nom: 'Nora', role: 'Accueil du campus', lieu: 'campus',
     voix: 'Aoede', ton: 'chaleureuse, souriante, dynamique',
-    look: { peau: '#e8b796', cheveux: '#2b1d16', coiffure: 'carre', tenue: '#AD1D89', bas: '#23232b', carrure: 'f', style: 'veste', chemise: '#ffffff', frange: true, iris: '#3d2616' },
-    accueil: "Bonjour et bienvenue à IMT Business School ! Moi, c'est Nora, de l'accueil. C'est votre premier jour d'alternance, n'est-ce pas ? Votre badge n'est pas encore activé. Pour l'activer, il va falloir rencontrer les bonnes personnes, ici sur le campus, puis dans votre entreprise. Posez-moi vos questions, je suis là pour ça.",
+    look: { peau: '#f2d2bb', cheveux: '#2b1d16', coiffure: 'carre', tenue: '#AD1D89', bas: '#23232b', carrure: 'f', style: 'veste', chemise: '#ffffff', frange: true, iris: '#3d2616' },
+    accueil: "Bonjour et bienvenue à IMT Business School ! Moi, c'est Nora, de l'accueil. C'est votre premier jour d'alternance, n'est-ce pas ? Pour bien démarrer, vous allez valider votre Passeport alternance. Pour cela, il faut rencontrer les bonnes personnes, ici sur le campus, puis dans votre entreprise. Posez-moi vos questions, je suis là pour ça.",
     questions: [
       { q: 'Où suis-je exactement ?', r: "Vous êtes dans le hall du campus d'Évry-Courcouronnes. Sur votre gauche, le bureau A08 du pôle alternance. Sur votre droite, la salle de cours B12 et le bureau de la coordination pédagogique. Et la porte vitrée du fond mène vers votre entreprise d'accueil, Nexus." },
-      { q: 'Comment activer mon badge ?', r: "Chaque personne que vous rencontrez vous posera quelques questions sur la vie en alternance. Écoutez bien, interrogez-les, puis répondez. Aucune pénalité en cas d'erreur, vous pouvez toujours réessayer. Au bout du parcours, une borne activera votre badge." },
+      { q: 'Comment valider mon Passeport alternance ?', r: "Chaque personne que vous rencontrez vous posera quelques questions sur la vie en alternance. Écoutez bien, interrogez-les, puis répondez. Aucune pénalité en cas d'erreur, vous pouvez toujours réessayer. Au bout du parcours, une borne validera votre Passeport alternance. Attention, il n'a rien à voir avec votre carte étudiante : c'est le fil rouge de cette visite." },
       { q: 'À quoi sert le carnet ?', r: "Le carnet rassemble l'annuaire, le calendrier de l'année et tout ce que vous aurez retenu en chemin. Vous l'ouvrez quand vous voulez avec la touche C. Et il vous servira bien après aujourd'hui." },
     ],
     defi: "Avant de vous laisser circuler, une petite question pour partir du bon pied.",
@@ -70,13 +82,18 @@ export const PERSONNAGES = [
         retenir: "Toute question sur l'apprentissage : d'abord le pôle alternance (bureau A08, apprentissage@imt-bs.eu).",
       },
     ],
-    fin: "Les portes du campus sont ouvertes. Allez voir Karim au pôle alternance, Claire en salle B12 et Inès à la coordination. J'ai glissé l'annuaire dans votre carnet. Bonne première journée !",
+    fin: "Les portes du campus sont ouvertes. Allez voir {alternance} au pôle alternance, Claire en salle B12 et {coordination} à la coordination. J'ai glissé l'annuaire dans votre carnet. Bonne première journée !",
   },
   {
-    id: 'karim', nom: 'Karim', role: 'Conseiller du pôle alternance · bureau A08', lieu: 'campus',
-    voix: 'Achird', ton: 'posé, bienveillant, rassurant',
-    look: { peau: '#b98157', cheveux: '#15110f', coiffure: 'court', tenue: '#1f3a5f', bas: '#2a2a33', barbe: true, carrure: 'm', style: 'veste', chemise: '#dfe8f2', iris: '#2e1c10', volume: 0.035 },
-    accueil: "Bonjour, entrez ! Karim, du pôle alternance. Ici, on répond à toutes vos questions sur votre statut d'apprenti. Contrat, absences, rythme, difficultés : commencez toujours par nous. Qu'est-ce que je peux vous expliquer ?",
+    id: 'alternance', nom: PRENOMS.alternance, role: 'Pôle alternance · bureau A08', lieu: 'campus',
+    voix: { bachelor: 'Laomedeia', pge: 'Despina' }, ton: 'posée, bienveillante, rassurante',
+    look: {
+      // Lucie : plus jeune, cheveux longs entre brun et blond, en queue de cheval
+      bachelor: { peau: '#f3d5c0', cheveux: '#8f6b45', coiffure: 'queue', tenue: '#1f3a5f', bas: '#2a2a33', carrure: 'f', style: 'pull', col: 'v', chemise: '#f4f0ea', iris: '#4f6b3a', taille: 0.99 },
+      // Géraldine : cheveux mi-longs châtain, lunettes
+      pge: { peau: '#f1cfb6', cheveux: '#5e3f2a', coiffure: 'milong', tenue: '#1f3a5f', bas: '#2a2a33', carrure: 'f', style: 'veste', chemise: '#dfe8f2', lunettes: true, iris: '#4a3020' },
+    },
+    accueil: "Bonjour, entrez ! {alternance}, du pôle alternance. Ici, on répond à toutes vos questions sur votre statut d'apprenti. Contrat, absences, rythme, difficultés : commencez toujours par nous. Qu'est-ce que je peux vous expliquer ?",
     questions: [
       { q: 'Suis-je étudiant ou salarié ?', r: "Les deux à la fois, et c'est toute la particularité de l'alternance. Votre employeur finance votre formation et vous verse un salaire, y compris pendant vos semaines de cours. Donc même à l'école, vous restez salarié, avec les mêmes obligations : ponctualité, tenue, comportement." },
       { q: "Je n'ai pas encore signé de contrat. Que faire ?", r: "Pas de panique, mais il ne faut pas attendre. Activez le statut de stagiaire de la formation professionnelle, le statut S F P, auprès de votre référente au C F A. Sans lui, vous n'êtes pas couvert. La date limite, c'est fin octobre en Bachelor et mi-novembre en programme Grande École." },
@@ -128,7 +145,7 @@ export const PERSONNAGES = [
       {
         type: 'choix',
         enonce: 'Sur quelle plateforme devez-vous émarger pour justifier votre présence en cours ?',
-        options: ['Moodle', 'Edusign', '1 Jeune 1 Alternance', 'Mon espace CFA'],
+        options: ['Moodle', 'Edusign', 'CLOE', 'Mon espace CFA'],
         correct: [1],
         indice: "Le nom est affiché sur l'écran de la salle.",
         bravo: "Edusign, bien sûr. À chaque cours, au moment où l'intervenant le demande.",
@@ -155,14 +172,19 @@ export const PERSONNAGES = [
     fin: "Très bien, vous êtes prêt pour votre premier cours. N'oubliez jamais votre téléphone chargé !",
   },
   {
-    id: 'ines', nom: 'Inès', role: 'Coordinatrice pédagogique', lieu: 'campus',
-    voix: 'Leda', ton: 'attentive, directe, à l’écoute',
-    look: { peau: '#c98f6b', cheveux: '#1b1412', coiffure: 'long', tenue: '#f2f2f5', bas: '#3a2a4a', carrure: 'f', style: 'chemise', jupe: true, iris: '#3a2414' },
-    accueil: "Bonjour ! Inès, coordinatrice pédagogique. Je suis votre contact pour le suivi au quotidien : absences, retards, justificatifs. Autant bien connaître la procédure avant d'en avoir besoin.",
+    id: 'coordination', nom: PRENOMS.coordination, role: 'Coordinatrice pédagogique', lieu: 'campus',
+    voix: { bachelor: 'Leda', pge: 'Erinome' }, ton: 'attentive, directe, à l’écoute',
+    look: {
+      // Cassandra : métisse, cheveux noirs, lunettes
+      bachelor: { peau: '#c99470', cheveux: '#141012', coiffure: 'long', tenue: '#f2f2f5', bas: '#3a2a4a', carrure: 'f', style: 'chemise', jupe: true, lunettes: true, iris: '#2e1c10' },
+      // Sandrine : cheveux blonds au carré, lunettes
+      pge: { peau: '#f3d6c2', cheveux: '#d3b06e', coiffure: 'carre', tenue: '#0f7c8c', bas: '#2d2d36', carrure: 'f', style: 'veste', chemise: '#ffffff', lunettes: true, iris: '#5f7f96' },
+    },
+    accueil: "Bonjour ! {coordination}, votre coordinatrice pédagogique. Je suis votre contact pour le suivi au quotidien : absences, retards, justificatifs. Autant bien connaître la procédure avant d'en avoir besoin.",
     questions: [
       { q: 'Je suis malade un matin de cours. Que faire ?', r: "D'abord, prévenez-moi, puis prévenez votre employeur, le plus tôt possible. Ensuite, consultez un médecin en précisant bien que vous êtes salarié : il vous faut un arrêt de travail, pas un simple certificat médical. Et vous le transmettez sur Edusign et à votre employeur dans le délai prévu." },
-      { q: 'Puis-je prendre un rendez-vous médical en semaine école ?', r: "Un rendez-vous chez un spécialiste ne justifie pas une absence en cours. Prenez-le plutôt sur une semaine en entreprise, en accord avec votre employeur. En revanche, une convocation officielle, à la préfecture par exemple, se transmet à votre coordinatrice." },
-      { q: 'Et si j’arrive en retard en cours ?', r: "Prévenez votre coordinatrice et fournissez un justificatif. Rappelez-vous qu'en semaine école vous êtes salarié : tout retard ou absence injustifiée est signalé à votre employeur." },
+      { q: 'Puis-je prendre un rendez-vous médical en semaine école ?', r: "Un rendez-vous chez un spécialiste ne justifie pas une absence en cours. Prenez-le plutôt sur une semaine en entreprise, en accord avec votre employeur. En revanche, une convocation officielle, à la préfecture par exemple, vous me la transmettez." },
+      { q: 'Et si j’arrive en retard en cours ?', r: "Prévenez-moi et fournissez un justificatif. Rappelez-vous qu'en semaine école vous êtes salarié : tout retard ou absence injustifiée est signalé à votre employeur." },
     ],
     defi: "Mettons cela en pratique avec trois situations.",
     epreuves: [
@@ -181,8 +203,8 @@ export const PERSONNAGES = [
         options: ['24 heures', '48 heures', '72 heures', 'Une semaine'],
         correct: [1],
         indice: 'Deux jours, pas un de plus.',
-        bravo: "Quarante-huit heures. Passé ce délai, l'absence peut être considérée comme injustifiée, avec une retenue sur salaire possible. Retenez bien ce nombre, quarante-huit : il vous servira pour activer votre badge.",
-        retenir: "Arrêt de travail à transmettre sous 48 h à l'école (Edusign) et à l'employeur. ★ Repère badge : 48.",
+        bravo: "Quarante-huit heures. Passé ce délai, l'absence peut être considérée comme injustifiée, avec une retenue sur salaire possible. Retenez bien ce nombre, quarante-huit : il vous servira pour valider votre Passeport alternance.",
+        retenir: "Arrêt de travail à transmettre sous 48 h à l'école (Edusign) et à l'employeur. ★ Repère passeport : 48.",
         repere: '48',
       },
       {
@@ -206,7 +228,7 @@ export const PERSONNAGES = [
     accueil: "Ah, vous voilà ! Bienvenue chez Nexus. Samuel, je suis votre tuteur en entreprise. Désolé pour ce matin, j'étais en déplacement. C'est moi qui vous accompagne sur vos missions toute l'année. Par quoi voulez-vous commencer ?",
     questions: [
       { q: 'Qu’attendez-vous de moi au quotidien ?', r: "De la ponctualité, d'abord, et le respect des horaires de l'équipe. Posez des questions, prenez des notes pendant les briefings, et dites-moi quand une tâche est terminée pour en demander une autre. Le premier jour, une tenue professionnelle, ensuite vous vous adapterez aux codes de la maison." },
-      { q: "C'est quoi, le contrat d'objectif ?", r: "C'est le document qui fixe vos missions pour l'année. Vous le remplissez sur la plateforme Un Jeune Une Alternance, dans le carnet de liaison, après avoir fait le point avec moi. Il est signé par trois personnes : vous, moi, et votre tuteur école. Et il doit être signé avant la mi-novembre." },
+      { q: "C'est quoi, le contrat d'objectif ?", r: "C'est le document qui fixe vos missions pour l'année. Vous le remplissez sur la plateforme CLOE, dans le carnet de liaison, après avoir fait le point avec moi. Il est signé par trois personnes : vous, moi, et votre tuteur école. Et il doit être signé avant la mi-novembre." },
       { q: 'Et si un imprévu me met en retard ?', r: "Ça arrive à tout le monde. Ce qui compte, c'est de me prévenir tout de suite, et de proposer de rattraper le temps manqué. C'est ça, le professionnalisme." },
     ],
     defi: "Je vous propose trois mises en situation, comme sur le terrain.",
@@ -232,11 +254,11 @@ export const PERSONNAGES = [
       {
         type: 'ordre',
         enonce: "Remettez dans l'ordre les étapes pour remplir votre contrat d'objectif.",
-        options: ['Remplir les informations demandées', 'Se connecter sur 1 Jeune 1 Alternance', "Signer le contrat d'objectif avant la mi-novembre", 'Faire le point avec son tuteur entreprise sur les missions', 'Aller dans « Carnet de liaison » → « Contrat d’objectif »'],
+        options: ['Remplir les informations demandées', 'Se connecter sur CLOE', "Signer le contrat d'objectif avant la mi-novembre", 'Faire le point avec son tuteur entreprise sur les missions', 'Aller dans « Carnet de liaison » → « Contrat d’objectif »'],
         correct: [1, 4, 3, 0, 2],
         indice: 'Tout commence par la connexion à la plateforme, et tout finit par la signature.',
-        bravo: "Parfait. La plateforme, le carnet de liaison, le point avec moi, la saisie, puis les signatures avant la mi-novembre.",
-        retenir: "Contrat d'objectif : 1 Jeune 1 Alternance → Carnet de liaison → point avec le tuteur → saisie → signature avant la mi-novembre (3 signataires).",
+        bravo: "Parfait. La plateforme CLOE, le carnet de liaison, le point avec moi, la saisie, puis les signatures avant la mi-novembre.",
+        retenir: "Contrat d'objectif : CLOE → Carnet de liaison → point avec le tuteur → saisie → signature avant la mi-novembre (3 signataires).",
       },
     ],
     fin: "Bien joué. On va faire du bon travail ensemble. Passez voir Léa aux ressources humaines et Marc, notre manager.",
@@ -274,11 +296,11 @@ export const PERSONNAGES = [
       {
         type: 'ordre',
         enonce: "Vous n'avez pas reçu le bon montant de rémunération ce mois-ci. Dans quel ordre agir ?",
-        options: ['Contacter le pôle alternance si la situation persiste', 'Contacter le tuteur entreprise ou les RH', 'Vérifier mon bulletin de salaire', 'Contacter ma référente au CFA', 'Garder une trace écrite de toutes mes démarches'],
-        correct: [2, 1, 0, 3, 4],
-        indice: 'On commence toujours par le bulletin, et on termine par la trace écrite.',
-        bravo: "Très bien. Le bulletin d'abord, puis le tuteur ou les R H, le pôle alternance, votre référente au C F A, en gardant toujours une trace écrite.",
-        retenir: 'Rémunération incomplète : bulletin → tuteur/RH → pôle alternance → référente CFA, avec une trace écrite.',
+        options: ["Contacter le pôle alternance de l'école, en dernier recours", 'Contacter le tuteur entreprise ou les RH', 'Vérifier mon bulletin de salaire', 'Contacter ma référente au CFA', 'Garder une trace écrite de toutes mes démarches'],
+        correct: [2, 1, 3, 0, 4],
+        indice: "On commence toujours par le bulletin, l'école n'intervient qu'en dernier recours, et on termine par la trace écrite.",
+        bravo: "Très bien. Le bulletin d'abord, puis le tuteur ou les R H, ensuite votre référente au C F A, et le pôle alternance de l'école seulement en dernier recours, en gardant toujours une trace écrite.",
+        retenir: 'Rémunération incomplète : bulletin → tuteur/RH → référente CFA → pôle alternance en dernier recours, avec une trace écrite.',
       },
     ],
     fin: "Tout est en ordre de mon côté. N'hésitez pas à passer me voir, mon bureau est toujours ouvert.",
@@ -353,8 +375,8 @@ export const PERSONNAGES = [
         options: ['La mi-novembre', 'Le 28 février', 'Le 30 juin', 'Le 30 août'],
         correct: [1],
         indice: 'La mi-novembre concerne le contrat d’objectif, le 30 août la seconde visite.',
-        bravo: "Le vingt-huit février, tout à fait. Si votre tuteur tarde, relancez-le activement. Gardez ce nombre en tête, vingt-huit : c'est le deuxième repère de votre badge.",
-        retenir: 'Visites entreprise + évaluations : avant le 28 février, puis avant le 30 août. ★ Repère badge : 28.',
+        bravo: "Le vingt-huit février, tout à fait. Si votre tuteur tarde, relancez-le activement. Gardez ce nombre en tête, vingt-huit : c'est le deuxième repère de votre Passeport alternance.",
+        retenir: 'Visites entreprise + évaluations : avant le 28 février, puis avant le 30 août. ★ Repère passeport : 28.',
         repere: '28',
       },
       {
@@ -366,19 +388,22 @@ export const PERSONNAGES = [
         retenir: 'La rencontre tuteur école est confidentielle.',
       },
     ],
-    fin: "Vous savez maintenant vers qui vous tourner. Allez voir Yanis, du C F A, juste en face.",
+    fin: "Vous savez maintenant vers qui vous tourner. Allez voir {cfa}, votre référente au C F A, juste en face.",
   },
   {
-    id: 'yanis', nom: 'Yanis', role: 'Conseiller du CFA', lieu: 'accompagnement',
-    voix: 'Iapetus', ton: 'clair, concret, encourageant',
-    look: { peau: '#a8714c', cheveux: '#1a1310', coiffure: 'court', tenue: '#3d4a2f', bas: '#24242b', carrure: 'm', style: 'pull', col: 'v', chemise: '#e8e4da', iris: '#33200f', volume: 0.045 },
-    accueil: "Bonjour ! Yanis, du C F A, le centre de formation d'apprentis. Je m'occupe des questions administratives et financières de votre contrat, et je vous accompagne si le contrat s'arrête. Parlons-en avant que cela n'arrive.",
+    id: 'cfa', nom: PRENOMS.cfa, role: 'Référente CFA', lieu: 'accompagnement',
+    voix: { bachelor: 'Autonoe', pge: 'Callirrhoe' }, ton: 'claire, concrète, encourageante',
+    look: {
+      bachelor: { peau: '#f2d0b8', cheveux: '#4a3121', coiffure: 'long', tenue: '#3d4a2f', bas: '#24242b', carrure: 'f', style: 'pull', col: 'v', chemise: '#e8e4da', iris: '#4a3020' },
+      pge: { peau: '#f0cdb2', cheveux: '#a5824f', coiffure: 'chignon', tenue: '#3d4a2f', bas: '#24242b', carrure: 'f', style: 'veste', chemise: '#f4f0ea', iris: '#5f7f96' },
+    },
+    accueil: "Bonjour ! Je suis {cfa}, votre référente au C F A, le centre de formation d'apprentis. Je m'occupe des questions administratives et financières de votre contrat, et je vous accompagne si le contrat s'arrête. Parlons-en avant que cela n'arrive.",
     questions: [
-      { q: 'Quel est le rôle du CFA ?', r: "Le C F A gère le volet administratif et financier de votre contrat, la procédure en cas de rupture et le statut S F P. Chaque programme a sa référente, vous la trouverez dans votre carnet. Et bon à savoir : nous pouvons vous prêter un ordinateur portable." },
+      { q: 'Quel est le rôle du CFA ?', r: "Le C F A gère le volet administratif et financier de votre contrat, la procédure en cas de rupture et le statut S F P. Chaque programme a sa référente : pour le vôtre, c'est moi, et mes coordonnées sont dans votre carnet. Et bon à savoir : nous pouvons vous prêter un ordinateur portable." },
       { q: "C'est quoi, la période d'essai ?", r: "Ce sont les premiers jours du contrat, pendant lesquels vous comme l'employeur pouvez y mettre fin sans vous justifier. Attention, on compte les jours de présence effective en entreprise. Les semaines d'école, les arrêts maladie et les congés ne comptent pas." },
       { q: 'Que se passe-t-il si mon contrat est rompu ?', r: "Vous n'êtes pas seul : le pôle alternance et le C F A continuent de vous accompagner et vous transmettent des offres. Mais il faut se relancer tout de suite, car trouver un employeur en cours d'année est difficile. Et si vous restez sans contrat, on active le statut S F P pour que vous restiez couvert." },
     ],
-    defi: "Dernière ligne droite. Trois questions, et vous aurez tout ce qu'il faut pour la borne.",
+    defi: "Dernière ligne droite. Trois questions, et vous aurez tout ce qu'il faut pour valider votre Passeport alternance.",
     epreuves: [
       {
         type: 'choix',
@@ -386,8 +411,8 @@ export const PERSONNAGES = [
         options: ['30 jours calendaires', '45 jours travaillés en entreprise', '2 mois', '3 mois'],
         correct: [1],
         indice: 'Ce sont des jours travaillés en entreprise, pas des jours calendaires.',
-        bravo: "Quarante-cinq jours de présence effective en entreprise. Les semaines d'école ne comptent pas. Et voilà votre troisième repère pour le badge : quarante-cinq.",
-        retenir: "Période d'essai : 45 jours de présence effective en entreprise. ★ Repère badge : 45.",
+        bravo: "Quarante-cinq jours de présence effective en entreprise. Les semaines d'école ne comptent pas. Et voilà votre troisième repère pour le Passeport alternance : quarante-cinq.",
+        retenir: "Période d'essai : 45 jours de présence effective en entreprise. ★ Repère passeport : 45.",
         repere: '45',
       },
       {
@@ -408,25 +433,32 @@ export const PERSONNAGES = [
         retenir: 'Rupture : je préviens le pôle alternance et le CFA, je relance ma recherche, j’active le statut SFP.',
       },
     ],
-    fin: "Vous avez vos trois repères. Direction la borne, au fond de la pièce, pour activer votre badge. Bravo pour ce parcours !",
+    fin: "Vous avez vos trois repères. Direction la borne, au fond de la pièce, pour valider votre Passeport alternance. Bravo pour ce parcours !",
   },
 ];
 
-// Borne finale : trois repères entendus pendant le parcours.
+// Étudiants assis en salle B12 (décor, sans dialogue). Places dans js/monde.js.
+export const FIGURANTS = [
+  { id: 'etudiant1', lieu: 'campus', look: { peau: '#e9bf9f', cheveux: '#2a1c14', coiffure: 'court', tenue: '#2f4858', bas: '#2b2f3a', carrure: 'm', style: 'pull', iris: '#3d2616', assis: true } },
+  { id: 'etudiant2', lieu: 'campus', look: { peau: '#f2d4bf', cheveux: '#b8894f', coiffure: 'long', tenue: '#c8506a', bas: '#2d2d36', carrure: 'f', style: 'pull', iris: '#5f7f96', assis: true } },
+  { id: 'etudiant3', lieu: 'campus', look: { peau: '#8d5a3b', cheveux: '#0f0c0b', coiffure: 'court', tenue: '#e9eaee', bas: '#1d2a3a', carrure: 'm', style: 'chemise', manches: 'retroussees', iris: '#2a180e', volume: 0.02, assis: true } },
+];
+
+// Borne finale : trois repères entendus pendant le parcours (`source` : identifiant du personnage).
 export const BORNE = {
-  titre: "Borne d'activation du badge",
+  titre: 'Borne du Passeport alternance',
   consigne: 'Saisissez vos trois repères, dans l’ordre du parcours.',
   champs: [
-    { label: "Délai, en heures, pour transmettre un arrêt de travail", reponse: '48', source: 'Inès' },
-    { label: 'Jour limite de la 1re visite en entreprise, en février', reponse: '28', source: 'Hélène' },
-    { label: "Jours de période d'essai, en présence effective", reponse: '45', source: 'Yanis' },
+    { label: "Délai, en heures, pour transmettre un arrêt de travail", reponse: '48', source: 'coordination' },
+    { label: 'Jour limite de la 1re visite en entreprise, en février', reponse: '28', source: 'helene' },
+    { label: "Jours de période d'essai, en présence effective", reponse: '45', source: 'cfa' },
   ],
 };
 
 export const CALENDRIER = [
   { quand: 'À chaque cours', quoi: 'Émarger sur Edusign.', si: "Sans émargement : absence signalée à l'employeur." },
   { quand: 'Dès la rentrée, si sans contrat', quoi: 'Activer le statut SFP auprès du CFA (formulaire P2S).', si: 'Échéance : fin octobre en Bachelor, mi-novembre en PGE.' },
-  { quand: 'Avant la mi-novembre', quoi: "Contrat d'objectif signé sur 1 Jeune 1 Alternance (3 signataires) et rencontre tuteur école (2 signataires).", si: 'Sans ces documents : pas de protection en cas de litige.' },
+  { quand: 'Avant la mi-novembre', quoi: "Contrat d'objectif signé sur CLOE (3 signataires) et rencontre tuteur école (2 signataires).", si: 'Sans ces documents : pas de protection en cas de litige.' },
   { quand: 'Avant le 28 février', quoi: '1re visite entreprise signée par les 3 parties + 1re évaluation.', si: 'Relancer activement le tuteur en cas de retard.' },
   { quand: 'Avant le 30 août', quoi: '2e visite entreprise + 2e évaluation.', si: 'Note obligatoire pour valider le diplôme en dernière année.' },
 ];
@@ -460,17 +492,62 @@ export const RELANCES = [
   "Ce n'est pas encore ça. Je vous donne un indice.",
 ];
 
-// Liste à plat de toutes les répliques à vocaliser : { id, perso, voix, ton, texte }.
+// Prononciation imposée à la synthèse vocale (le texte affiché ne change pas).
+// « Edusign » se dit « édu-saïne » à chaque fois ; les sigles sont épelés.
+export const PRONONCIATION = [
+  [/\bEdusign\b/gi, 'Édu-saïne'],
+  [/\bCLOE\b/g, 'Cloé'],
+  [/\bCFA\b/g, 'C F A'],
+  [/\bSFP\b/g, 'S F P'],
+  [/\bRH\b/g, 'R H'],
+  [/\bQR\b/g, 'Q R'],
+];
+export const oral = (t) => PRONONCIATION.reduce((s, [re, rep]) => s.replace(re, rep), t);
+
+// Énoncé lu par le personnage au début d'une épreuve (sans les réponses proposées).
+export const enonceParle = (e) => (e.type === 'vf' ? 'Vrai ou faux ? ' : '') + e.enonce;
+
+// Valeur qui dépend du programme ({ bachelor, pge }) ou valeur unique.
+const selon = (v, prog) => (v && typeof v === 'object' && !Array.isArray(v) && PROGRAMMES.every(k => k in v) ? v[prog] : v);
+const remplir = (t, prog) => t.replace(/\{(\w+)\}/g, (m, k) => PRENOMS[k]?.[prog] ?? m);
+const parProgramme = (p) => typeof p.voix === 'object';
+
+// Toutes les répliques parlées d'un personnage, textes bruts : [[suffixe, texte], …].
+function textesParles(p) {
+  return [
+    ['accueil', p.accueil],
+    ...p.questions.map((q, i) => [`q${i + 1}`, q.r]),
+    ['defi', p.defi],
+    ...p.epreuves.map((e, i) => [`enonce${i + 1}`, enonceParle(e)]),
+    ...p.epreuves.map((e, i) => [`e${i + 1}`, e.bravo]),
+    ...RELANCES.map((t, i) => [`non${i + 1}`, t]),
+    ['fin', p.fin],
+  ];
+}
+
+// Personnage tel que le voit l'apprenti·e d'un programme : prénom, voix, apparence et textes résolus.
+// `cleAudio(suffixe)` donne le nom du fichier de voix pré-générée.
+export function incarner(p, prog) {
+  const r = (t) => remplir(t, prog);
+  const variantes = new Set(textesParles(p).filter(([, t]) => parProgramme(p) || /\{\w+\}/.test(t)).map(([s]) => s));
+  return {
+    ...p, nom: selon(p.nom, prog), voix: selon(p.voix, prog), look: selon(p.look, prog), reel: parProgramme(p),
+    accueil: r(p.accueil), defi: r(p.defi), fin: r(p.fin),
+    questions: p.questions.map(q => ({ q: r(q.q), r: r(q.r) })),
+    epreuves: p.epreuves.map(e => ({ ...e, enonce: r(e.enonce), bravo: r(e.bravo) })),
+    cleAudio: (s) => (variantes.has(s) ? `${p.id}_${s}_${prog}` : `${p.id}_${s}`),
+  };
+}
+
+// Liste à plat de toutes les répliques à vocaliser : { id, perso, voix, ton, texte } (texte prononçable).
 export function repliques() {
   const out = [];
   for (const p of PERSONNAGES) {
-    const add = (suffixe, texte) => out.push({ id: `${p.id}_${suffixe}`, perso: p.id, voix: p.voix, ton: p.ton, texte });
-    add('accueil', p.accueil);
-    p.questions.forEach((q, i) => add(`q${i + 1}`, q.r));
-    add('defi', p.defi);
-    p.epreuves.forEach((e, i) => add(`e${i + 1}`, e.bravo));
-    RELANCES.forEach((t, i) => add(`non${i + 1}`, t));
-    add('fin', p.fin);
+    for (const [s, t] of textesParles(p)) {
+      if (parProgramme(p) || /\{\w+\}/.test(t)) {
+        for (const prog of PROGRAMMES) out.push({ id: `${p.id}_${s}_${prog}`, perso: p.id, voix: selon(p.voix, prog), ton: p.ton, texte: oral(remplir(t, prog)) });
+      } else out.push({ id: `${p.id}_${s}`, perso: p.id, voix: p.voix, ton: p.ton, texte: oral(t) });
+    }
   }
   return out;
 }

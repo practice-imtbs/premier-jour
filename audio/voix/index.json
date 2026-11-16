@@ -5,7 +5,7 @@
  },
  "nora_q2": {
   "fichier": "nora_q2.mp3",
-  "empreinte": "42357ce09cd3"
+  "empreinte": "050e08a75b26"
  },
  "nora_q1": {
   "fichier": "nora_q1.mp3",
@@ -13,7 +13,7 @@
  },
  "nora_accueil": {
   "fichier": "nora_accueil.mp3",
-  "empreinte": "9912d16daf94"
+  "empreinte": "168c5029e53f"
  },
  "nora_non1": {
   "fichier": "nora_non1.mp3",
@@ -31,54 +31,6 @@
   "fichier": "nora_e1.mp3",
   "empreinte": "ae90858fbc36"
  },
- "nora_fin": {
-  "fichier": "nora_fin.mp3",
-  "empreinte": "a58daa88064a"
- },
- "karim_accueil": {
-  "fichier": "karim_accueil.mp3",
-  "empreinte": "a55065e7ef80"
- },
- "karim_q1": {
-  "fichier": "karim_q1.mp3",
-  "empreinte": "fbaa298fecc0"
- },
- "karim_defi": {
-  "fichier": "karim_defi.mp3",
-  "empreinte": "6dedf1017f4a"
- },
- "karim_q3": {
-  "fichier": "karim_q3.mp3",
-  "empreinte": "e5866155f3f7"
- },
- "karim_q2": {
-  "fichier": "karim_q2.mp3",
-  "empreinte": "7e28519cb13e"
- },
- "karim_e1": {
-  "fichier": "karim_e1.mp3",
-  "empreinte": "4bb31fd5dc62"
- },
- "karim_non1": {
-  "fichier": "karim_non1.mp3",
-  "empreinte": "d2f6341b822e"
- },
- "karim_non2": {
-  "fichier": "karim_non2.mp3",
-  "empreinte": "863af45cddf2"
- },
- "karim_e3": {
-  "fichier": "karim_e3.mp3",
-  "empreinte": "e8edaabaf380"
- },
- "karim_e2": {
-  "fichier": "karim_e2.mp3",
-  "empreinte": "cd774c717a1c"
- },
- "karim_fin": {
-  "fichier": "karim_fin.mp3",
-  "empreinte": "8df955c1a5cb"
- },
  "claire_q2": {
   "fichier": "claire_q2.mp3",
   "empreinte": "eaa2f24bea91"
@@ -93,11 +45,11 @@
  },
  "claire_q1": {
   "fichier": "claire_q1.mp3",
-  "empreinte": "34f990254bfd"
+  "empreinte": "a54627ffe2df"
  },
  "claire_e1": {
   "fichier": "claire_e1.mp3",
-  "empreinte": "4c8ed30958a1"
+  "empreinte": "4cb59fd3fbf9"
  },
  "claire_non1": {
   "fichier": "claire_non1.mp3",
@@ -123,50 +75,6 @@
   "fichier": "claire_fin.mp3",
   "empreinte": "f3a93bc6e67c"
  },
- "ines_accueil": {
-  "fichier": "ines_accueil.mp3",
-  "empreinte": "75b6d1080fe8"
- },
- "ines_q3": {
-  "fichier": "ines_q3.mp3",
-  "empreinte": "97c1b532e87e"
- },
- "ines_q1": {
-  "fichier": "ines_q1.mp3",
-  "empreinte": "1d3d189c6164"
- },
- "ines_defi": {
-  "fichier": "ines_defi.mp3",
-  "empreinte": "a7c8fe9ba1c9"
- },
- "ines_q2": {
-  "fichier": "ines_q2.mp3",
-  "empreinte": "46e052e99715"
- },
- "ines_e1": {
-  "fichier": "ines_e1.mp3",
-  "empreinte": "00f2c5b4a441"
- },
- "ines_non1": {
-  "fichier": "ines_non1.mp3",
-  "empreinte": "9648279c421e"
- },
- "ines_e3": {
-  "fichier": "ines_e3.mp3",
-  "empreinte": "9fb3fcfe7451"
- },
- "ines_e2": {
-  "fichier": "ines_e2.mp3",
-  "empreinte": "7c18d1e9455e"
- },
- "ines_fin": {
-  "fichier": "ines_fin.mp3",
-  "empreinte": "825d3b6af1d1"
- },
- "ines_non2": {
-  "fichier": "ines_non2.mp3",
-  "empreinte": "19f1bf39c6fe"
- },
  "sam_accueil": {
   "fichier": "sam_accueil.mp3",
   "empreinte": "c0d97d8baa5a"
@@ -185,11 +93,11 @@
  },
  "sam_q2": {
   "fichier": "sam_q2.mp3",
-  "empreinte": "b00394ac837f"
+  "empreinte": "cc21182f5917"
  },
  "sam_e3": {
   "fichier": "sam_e3.mp3",
-  "empreinte": "46bac135f88d"
+  "empreinte": "a38dc6b12de3"
  },
  "sam_e2": {
   "fichier": "sam_e2.mp3",
@@ -241,7 +149,7 @@
  },
  "lea_e3": {
   "fichier": "lea_e3.mp3",
-  "empreinte": "621dbd453fac"
+  "empreinte": "7a3341fa3d04"
  },
  "lea_e2": {
   "fichier": "lea_e2.mp3",
@@ -333,58 +241,426 @@
  },
  "helene_e2": {
   "fichier": "helene_e2.mp3",
-  "empreinte": "9cfb250ca525"
+  "empreinte": "f34fd3065b8d"
  },
  "helene_non2": {
   "fichier": "helene_non2.mp3",
   "empreinte": "386c43c2bccb"
  },
- "helene_fin": {
-  "fichier": "helene_fin.mp3",
-  "empreinte": "1d63a0928899"
+ "nora_enonce1": {
+  "fichier": "nora_enonce1.mp3",
+  "empreinte": "aafa84ecefbf"
  },
- "yanis_accueil": {
-  "fichier": "yanis_accueil.mp3",
-  "empreinte": "963793772b53"
+ "nora_fin_bachelor": {
+  "fichier": "nora_fin_bachelor.mp3",
+  "empreinte": "9a329e52ca08"
  },
- "yanis_q1": {
-  "fichier": "yanis_q1.mp3",
-  "empreinte": "52c1cbe9bd85"
+ "nora_fin_pge": {
+  "fichier": "nora_fin_pge.mp3",
+  "empreinte": "0719e31741cd"
  },
- "yanis_q2": {
-  "fichier": "yanis_q2.mp3",
-  "empreinte": "1715a94ff512"
+ "alternance_accueil_bachelor": {
+  "fichier": "alternance_accueil_bachelor.mp3",
+  "empreinte": "a89769fc9f14"
  },
- "yanis_defi": {
-  "fichier": "yanis_defi.mp3",
-  "empreinte": "e7af52872380"
+ "alternance_accueil_pge": {
+  "fichier": "alternance_accueil_pge.mp3",
+  "empreinte": "0b8f6f25eee4"
  },
- "yanis_e1": {
-  "fichier": "yanis_e1.mp3",
-  "empreinte": "0fe4b331e9eb"
+ "alternance_q1_pge": {
+  "fichier": "alternance_q1_pge.mp3",
+  "empreinte": "23a8e35c361d"
  },
- "yanis_q3": {
-  "fichier": "yanis_q3.mp3",
-  "empreinte": "d3204d49f4a8"
+ "alternance_q1_bachelor": {
+  "fichier": "alternance_q1_bachelor.mp3",
+  "empreinte": "49f5816597a9"
  },
- "yanis_e2": {
-  "fichier": "yanis_e2.mp3",
-  "empreinte": "19e5268f3be8"
+ "alternance_q2_bachelor": {
+  "fichier": "alternance_q2_bachelor.mp3",
+  "empreinte": "4582f6080640"
  },
- "yanis_non1": {
-  "fichier": "yanis_non1.mp3",
-  "empreinte": "793bc84ea3da"
+ "alternance_defi_bachelor": {
+  "fichier": "alternance_defi_bachelor.mp3",
+  "empreinte": "15903f6434ed"
  },
- "yanis_e3": {
-  "fichier": "yanis_e3.mp3",
-  "empreinte": "46c7559980c8"
+ "alternance_q3_bachelor": {
+  "fichier": "alternance_q3_bachelor.mp3",
+  "empreinte": "fc013365a38f"
  },
- "yanis_non2": {
-  "fichier": "yanis_non2.mp3",
-  "empreinte": "4aab583fbc98"
+ "alternance_defi_pge": {
+  "fichier": "alternance_defi_pge.mp3",
+  "empreinte": "d3db2bba32f2"
  },
- "yanis_fin": {
-  "fichier": "yanis_fin.mp3",
-  "empreinte": "240f515a1f60"
+ "alternance_q2_pge": {
+  "fichier": "alternance_q2_pge.mp3",
+  "empreinte": "8b8c40920be7"
+ },
+ "alternance_q3_pge": {
+  "fichier": "alternance_q3_pge.mp3",
+  "empreinte": "70a3826da86f"
+ },
+ "alternance_enonce1_bachelor": {
+  "fichier": "alternance_enonce1_bachelor.mp3",
+  "empreinte": "c8297b2210ac"
+ },
+ "alternance_enonce1_pge": {
+  "fichier": "alternance_enonce1_pge.mp3",
+  "empreinte": "68a4eb3dd514"
+ },
+ "alternance_enonce2_bachelor": {
+  "fichier": "alternance_enonce2_bachelor.mp3",
+  "empreinte": "366516f2e633"
+ },
+ "alternance_enonce2_pge": {
+  "fichier": "alternance_enonce2_pge.mp3",
+  "empreinte": "db823a2e04e7"
+ },
+ "alternance_enonce3_bachelor": {
+  "fichier": "alternance_enonce3_bachelor.mp3",
+  "empreinte": "b80225f447d6"
+ },
+ "alternance_e1_pge": {
+  "fichier": "alternance_e1_pge.mp3",
+  "empreinte": "19370c55b98d"
+ },
+ "alternance_e1_bachelor": {
+  "fichier": "alternance_e1_bachelor.mp3",
+  "empreinte": "11933248fb13"
+ },
+ "alternance_enonce3_pge": {
+  "fichier": "alternance_enonce3_pge.mp3",
+  "empreinte": "d998c391b8e7"
+ },
+ "alternance_e2_bachelor": {
+  "fichier": "alternance_e2_bachelor.mp3",
+  "empreinte": "e534b59db469"
+ },
+ "alternance_e2_pge": {
+  "fichier": "alternance_e2_pge.mp3",
+  "empreinte": "ae1f27e3d38b"
+ },
+ "alternance_e3_bachelor": {
+  "fichier": "alternance_e3_bachelor.mp3",
+  "empreinte": "ba83d9b0b844"
+ },
+ "alternance_e3_pge": {
+  "fichier": "alternance_e3_pge.mp3",
+  "empreinte": "f72651158b67"
+ },
+ "alternance_non1_bachelor": {
+  "fichier": "alternance_non1_bachelor.mp3",
+  "empreinte": "96add807764b"
+ },
+ "alternance_non2_bachelor": {
+  "fichier": "alternance_non2_bachelor.mp3",
+  "empreinte": "99300c40b59c"
+ },
+ "alternance_non2_pge": {
+  "fichier": "alternance_non2_pge.mp3",
+  "empreinte": "5afed8a6d373"
+ },
+ "alternance_non1_pge": {
+  "fichier": "alternance_non1_pge.mp3",
+  "empreinte": "4fb9aad687f7"
+ },
+ "alternance_fin_pge": {
+  "fichier": "alternance_fin_pge.mp3",
+  "empreinte": "997bf771599d"
+ },
+ "alternance_fin_bachelor": {
+  "fichier": "alternance_fin_bachelor.mp3",
+  "empreinte": "6499ca62ae9c"
+ },
+ "claire_enonce1": {
+  "fichier": "claire_enonce1.mp3",
+  "empreinte": "4702734780cc"
+ },
+ "claire_enonce2": {
+  "fichier": "claire_enonce2.mp3",
+  "empreinte": "a203dc91b194"
+ },
+ "claire_enonce3": {
+  "fichier": "claire_enonce3.mp3",
+  "empreinte": "9a8630b95cbd"
+ },
+ "coordination_accueil_bachelor": {
+  "fichier": "coordination_accueil_bachelor.mp3",
+  "empreinte": "7a8d9458ae54"
+ },
+ "coordination_accueil_pge": {
+  "fichier": "coordination_accueil_pge.mp3",
+  "empreinte": "08d2d86c525e"
+ },
+ "coordination_q1_bachelor": {
+  "fichier": "coordination_q1_bachelor.mp3",
+  "empreinte": "e0950e1b75ec"
+ },
+ "coordination_q1_pge": {
+  "fichier": "coordination_q1_pge.mp3",
+  "empreinte": "f7c9b6cdec1c"
+ },
+ "coordination_q2_bachelor": {
+  "fichier": "coordination_q2_bachelor.mp3",
+  "empreinte": "405971febddd"
+ },
+ "coordination_q2_pge": {
+  "fichier": "coordination_q2_pge.mp3",
+  "empreinte": "6b714b9fd5e0"
+ },
+ "coordination_q3_bachelor": {
+  "fichier": "coordination_q3_bachelor.mp3",
+  "empreinte": "fdf9dc8b22a1"
+ },
+ "coordination_q3_pge": {
+  "fichier": "coordination_q3_pge.mp3",
+  "empreinte": "ccdfbaaf69e0"
+ },
+ "coordination_defi_pge": {
+  "fichier": "coordination_defi_pge.mp3",
+  "empreinte": "98608dccb859"
+ },
+ "coordination_defi_bachelor": {
+  "fichier": "coordination_defi_bachelor.mp3",
+  "empreinte": "a7c8fe9ba1c9"
+ },
+ "coordination_enonce2_bachelor": {
+  "fichier": "coordination_enonce2_bachelor.mp3",
+  "empreinte": "1be516a1679e"
+ },
+ "coordination_enonce1_pge": {
+  "fichier": "coordination_enonce1_pge.mp3",
+  "empreinte": "102e197787ff"
+ },
+ "coordination_enonce1_bachelor": {
+  "fichier": "coordination_enonce1_bachelor.mp3",
+  "empreinte": "32e5627a9336"
+ },
+ "coordination_enonce2_pge": {
+  "fichier": "coordination_enonce2_pge.mp3",
+  "empreinte": "1e1701516959"
+ },
+ "coordination_enonce3_bachelor": {
+  "fichier": "coordination_enonce3_bachelor.mp3",
+  "empreinte": "5e35285ee7e7"
+ },
+ "coordination_enonce3_pge": {
+  "fichier": "coordination_enonce3_pge.mp3",
+  "empreinte": "d50c0b698c0d"
+ },
+ "coordination_e1_bachelor": {
+  "fichier": "coordination_e1_bachelor.mp3",
+  "empreinte": "d10d2ab7a7e3"
+ },
+ "coordination_e1_pge": {
+  "fichier": "coordination_e1_pge.mp3",
+  "empreinte": "d6c71ffad38e"
+ },
+ "coordination_e3_bachelor": {
+  "fichier": "coordination_e3_bachelor.mp3",
+  "empreinte": "9fb3fcfe7451"
+ },
+ "coordination_e2_bachelor": {
+  "fichier": "coordination_e2_bachelor.mp3",
+  "empreinte": "87dad494a0f2"
+ },
+ "coordination_e2_pge": {
+  "fichier": "coordination_e2_pge.mp3",
+  "empreinte": "a856798411d5"
+ },
+ "coordination_e3_pge": {
+  "fichier": "coordination_e3_pge.mp3",
+  "empreinte": "7577339121ee"
+ },
+ "coordination_non1_bachelor": {
+  "fichier": "coordination_non1_bachelor.mp3",
+  "empreinte": "9648279c421e"
+ },
+ "coordination_non2_bachelor": {
+  "fichier": "coordination_non2_bachelor.mp3",
+  "empreinte": "19f1bf39c6fe"
+ },
+ "coordination_non1_pge": {
+  "fichier": "coordination_non1_pge.mp3",
+  "empreinte": "336798c79f75"
+ },
+ "coordination_non2_pge": {
+  "fichier": "coordination_non2_pge.mp3",
+  "empreinte": "ca9462183ca3"
+ },
+ "coordination_fin_bachelor": {
+  "fichier": "coordination_fin_bachelor.mp3",
+  "empreinte": "825d3b6af1d1"
+ },
+ "coordination_fin_pge": {
+  "fichier": "coordination_fin_pge.mp3",
+  "empreinte": "e48807bbd757"
+ },
+ "sam_enonce2": {
+  "fichier": "sam_enonce2.mp3",
+  "empreinte": "5ced1e6091a6"
+ },
+ "sam_enonce3": {
+  "fichier": "sam_enonce3.mp3",
+  "empreinte": "c007107c589e"
+ },
+ "sam_enonce1": {
+  "fichier": "sam_enonce1.mp3",
+  "empreinte": "4c3f5bb9f6e0"
+ },
+ "lea_enonce2": {
+  "fichier": "lea_enonce2.mp3",
+  "empreinte": "bcf7c6f83aec"
+ },
+ "lea_enonce1": {
+  "fichier": "lea_enonce1.mp3",
+  "empreinte": "a19e72d892bb"
+ },
+ "lea_enonce3": {
+  "fichier": "lea_enonce3.mp3",
+  "empreinte": "a4ebf143fdf2"
+ },
+ "marc_enonce1": {
+  "fichier": "marc_enonce1.mp3",
+  "empreinte": "3945ca6c184d"
+ },
+ "marc_enonce2": {
+  "fichier": "marc_enonce2.mp3",
+  "empreinte": "6ea65b36fe46"
+ },
+ "marc_enonce3": {
+  "fichier": "marc_enonce3.mp3",
+  "empreinte": "db04e4eec30f"
+ },
+ "helene_enonce1": {
+  "fichier": "helene_enonce1.mp3",
+  "empreinte": "afb67a4f71f6"
+ },
+ "helene_enonce3": {
+  "fichier": "helene_enonce3.mp3",
+  "empreinte": "bb6dc7119dcf"
+ },
+ "helene_enonce2": {
+  "fichier": "helene_enonce2.mp3",
+  "empreinte": "a3b9a60fa92a"
+ },
+ "helene_fin_bachelor": {
+  "fichier": "helene_fin_bachelor.mp3",
+  "empreinte": "5677e5d1e3e6"
+ },
+ "helene_fin_pge": {
+  "fichier": "helene_fin_pge.mp3",
+  "empreinte": "dbba99d5acbd"
+ },
+ "cfa_accueil_bachelor": {
+  "fichier": "cfa_accueil_bachelor.mp3",
+  "empreinte": "f2e8feae6b71"
+ },
+ "cfa_accueil_pge": {
+  "fichier": "cfa_accueil_pge.mp3",
+  "empreinte": "91825157ebf6"
+ },
+ "cfa_q1_bachelor": {
+  "fichier": "cfa_q1_bachelor.mp3",
+  "empreinte": "3593552f9884"
+ },
+ "cfa_q1_pge": {
+  "fichier": "cfa_q1_pge.mp3",
+  "empreinte": "ad11a8b26c5b"
+ },
+ "cfa_q2_bachelor": {
+  "fichier": "cfa_q2_bachelor.mp3",
+  "empreinte": "d8e2e7f6e023"
+ },
+ "cfa_q2_pge": {
+  "fichier": "cfa_q2_pge.mp3",
+  "empreinte": "cb0ff3b40dc3"
+ },
+ "cfa_defi_bachelor": {
+  "fichier": "cfa_defi_bachelor.mp3",
+  "empreinte": "2732ebdc7c55"
+ },
+ "cfa_q3_bachelor": {
+  "fichier": "cfa_q3_bachelor.mp3",
+  "empreinte": "9a31126b94d0"
+ },
+ "cfa_q3_pge": {
+  "fichier": "cfa_q3_pge.mp3",
+  "empreinte": "a85222ff7072"
+ },
+ "cfa_defi_pge": {
+  "fichier": "cfa_defi_pge.mp3",
+  "empreinte": "65d4d6eeaff1"
+ },
+ "cfa_enonce1_pge": {
+  "fichier": "cfa_enonce1_pge.mp3",
+  "empreinte": "d9a30997e78a"
+ },
+ "cfa_enonce1_bachelor": {
+  "fichier": "cfa_enonce1_bachelor.mp3",
+  "empreinte": "0e8a203fcf89"
+ },
+ "cfa_enonce3_bachelor": {
+  "fichier": "cfa_enonce3_bachelor.mp3",
+  "empreinte": "02e65a54072f"
+ },
+ "cfa_enonce2_pge": {
+  "fichier": "cfa_enonce2_pge.mp3",
+  "empreinte": "e00d361eeeaf"
+ },
+ "cfa_enonce2_bachelor": {
+  "fichier": "cfa_enonce2_bachelor.mp3",
+  "empreinte": "d494748bba3c"
+ },
+ "cfa_enonce3_pge": {
+  "fichier": "cfa_enonce3_pge.mp3",
+  "empreinte": "f6941e6adb30"
+ },
+ "cfa_e1_bachelor": {
+  "fichier": "cfa_e1_bachelor.mp3",
+  "empreinte": "12e2d3a74484"
+ },
+ "cfa_e2_bachelor": {
+  "fichier": "cfa_e2_bachelor.mp3",
+  "empreinte": "6254a75727e9"
+ },
+ "cfa_e2_pge": {
+  "fichier": "cfa_e2_pge.mp3",
+  "empreinte": "8c0a05043655"
+ },
+ "cfa_e1_pge": {
+  "fichier": "cfa_e1_pge.mp3",
+  "empreinte": "c7cffc157751"
+ },
+ "cfa_e3_pge": {
+  "fichier": "cfa_e3_pge.mp3",
+  "empreinte": "f8ef932f16bb"
+ },
+ "cfa_non1_bachelor": {
+  "fichier": "cfa_non1_bachelor.mp3",
+  "empreinte": "31122f80e316"
+ },
+ "cfa_e3_bachelor": {
+  "fichier": "cfa_e3_bachelor.mp3",
+  "empreinte": "d3167d5c0580"
+ },
+ "cfa_non1_pge": {
+  "fichier": "cfa_non1_pge.mp3",
+  "empreinte": "326ee8ebb878"
+ },
+ "cfa_non2_bachelor": {
+  "fichier": "cfa_non2_bachelor.mp3",
+  "empreinte": "f0013b65277f"
+ },
+ "cfa_non2_pge": {
+  "fichier": "cfa_non2_pge.mp3",
+  "empreinte": "799f977eb6f0"
+ },
+ "cfa_fin_bachelor": {
+  "fichier": "cfa_fin_bachelor.mp3",
+  "empreinte": "20b1aeb38f6e"
+ },
+ "cfa_fin_pge": {
+  "fichier": "cfa_fin_pge.mp3",
+  "empreinte": "23dcc9acb6dc"
  }
 }
