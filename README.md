@@ -3,7 +3,7 @@
 [Jouer en ligne](https://practice-imtbs.github.io/premier-jour/) · [Dépôt GitHub](https://github.com/practice-imtbs/premier-jour)
 
 Jeu sérieux **à la première personne** pour la rentrée des apprenti·es d'IMT Business School (Career Center · PracTice).
-Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.4.0, novembre 2026 (retours du Career Center du 16/11/2026, voir plus bas).
+Troisième proposition du projet, après *L'Entreprise Mystère* (Claude, quiz sur smartphone) et *Le dernier badge* (ChatGPT, vue isométrique). Version d'essai 0.4.1, novembre 2026 (retours du Career Center du 16/11/2026 et corrections de voix du 17/11/2026, voir plus bas).
 
 Positionnement : une version **solo**, à jouer au casque, en rattrapage pour les apprenti·es absent·es à la rentrée ou en complément du jeu collectif d'accueil.
 
@@ -100,6 +100,13 @@ Le jeu est un site statique (GitHub Pages convient). La clé OpenRouter ne doit 
 3. Indiquer l'adresse du Worker dans `config.js` (`relais: 'https://…workers.dev'`).
 
 Le relais n'accepte que les origines autorisées, limite la longueur des questions, construit lui-même la consigne du personnage et applique une limite simple par adresse IP. Pour un amphi complet, ajouter une règle de limitation de débit Cloudflare et un plafond de dépense sur la clé OpenRouter.
+
+## Corrections du 17/11/2026, intégrées en 0.4.1
+
+Faites pendant le portage du jeu dans Unity (`seriousGames/Unity/PremierJour`), validées par Julien :
+
+- Les phrases qui annoncent les épreuves ne donnent plus de nombre (« trois questions » devenait faux quand certaines épreuves sont facultatives) : 6 répliques reformulées, 9 voix régénérées.
+- Trois voix lisaient à voix haute leur consigne de ton (« Ton assuré, exigeant mais juste… ») : la question de Marc sur la semaine école, la phrase de fin de Léa, la question vrai ou faux d'Adeline (Bachelor). Régénérées avec le même modèle et les mêmes voix, et vérifiées par transcription.
 
 ## Retours du Career Center (16/11/2026), intégrés en 0.4.0
 

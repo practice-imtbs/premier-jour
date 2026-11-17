@@ -99,7 +99,7 @@ export const PERSONNAGES = [
       { q: "Je n'ai pas encore signé de contrat. Que faire ?", r: "Pas de panique, mais il ne faut pas attendre. Activez le statut de stagiaire de la formation professionnelle, le statut S F P, auprès de votre référente au C F A. Sans lui, vous n'êtes pas couvert. La date limite, c'est fin octobre en Bachelor et mi-novembre en programme Grande École." },
       { q: 'Et si je traverse une période difficile ?', r: "Vous n'êtes jamais seul. L'école a tout ce qu'il faut en interne : le pôle d'accompagnement étudiant, l'infirmière du campus, et une référente handicap pour les apprentis. Le bon réflexe, c'est d'en parler tôt, sans attendre que les difficultés s'accumulent." },
     ],
-    defi: "Voyons si les bases sont claires. Trois questions rapides.",
+    defi: "Voyons si les bases sont claires.",
     epreuves: [
       {
         type: 'vf',
@@ -186,7 +186,7 @@ export const PERSONNAGES = [
       { q: 'Puis-je prendre un rendez-vous médical en semaine école ?', r: "Un rendez-vous chez un spécialiste ne justifie pas une absence en cours. Prenez-le plutôt sur une semaine en entreprise, en accord avec votre employeur. En revanche, une convocation officielle, à la préfecture par exemple, vous me la transmettez." },
       { q: 'Et si j’arrive en retard en cours ?', r: "Prévenez-moi et fournissez un justificatif. Rappelez-vous qu'en semaine école vous êtes salarié : tout retard ou absence injustifiée est signalé à votre employeur." },
     ],
-    defi: "Mettons cela en pratique avec trois situations.",
+    defi: "Mettons cela en pratique avec quelques situations.",
     epreuves: [
       {
         type: 'ordre',
@@ -231,7 +231,7 @@ export const PERSONNAGES = [
       { q: "C'est quoi, le contrat d'objectif ?", r: "C'est le document qui fixe vos missions pour l'année. Vous le remplissez sur la plateforme CLOE, dans le carnet de liaison, après avoir fait le point avec moi. Il est signé par trois personnes : vous, moi, et votre tuteur école. Et il doit être signé avant la mi-novembre." },
       { q: 'Et si un imprévu me met en retard ?', r: "Ça arrive à tout le monde. Ce qui compte, c'est de me prévenir tout de suite, et de proposer de rattraper le temps manqué. C'est ça, le professionnalisme." },
     ],
-    defi: "Je vous propose trois mises en situation, comme sur le terrain.",
+    defi: "Je vous propose quelques mises en situation, comme sur le terrain.",
     epreuves: [
       {
         type: 'choix',
@@ -273,7 +273,7 @@ export const PERSONNAGES = [
       { q: 'Ai-je droit aux avantages de l’entreprise ?', r: "Oui, vous bénéficiez des mêmes avantages que vos collègues : restauration, transport, culture, selon ce qui existe chez nous. Côté école, vous pouvez aussi demander la carte d'étudiant des métiers auprès du pôle alternance." },
       { q: 'Qui me paie pendant les semaines de cours ?', r: "C'est nous, votre employeur. Votre salaire est versé tous les mois, que vous soyez en entreprise ou en formation. C'est pour cela que les absences injustifiées en cours peuvent apparaître sur votre bulletin." },
     ],
-    defi: "Trois points administratifs à vérifier ensemble.",
+    defi: "Quelques points administratifs à vérifier ensemble.",
     epreuves: [
       {
         type: 'choix',
@@ -315,7 +315,7 @@ export const PERSONNAGES = [
       { q: 'Que se passe-t-il en cas de manquement ?', r: "Les manquements de comportement, d'assiduité ou la fraude sont transmis au C F A par l'école. Il existe quatre niveaux de sanction : l'avertissement, le blâme, l'exclusion temporaire jusqu'à cinq jours, et l'exclusion définitive. Et en cas de plagiat, c'est zéro." },
       { q: 'Un conseil pour bien m’intégrer ?', r: "Soyez curieux et fiable. Tenez vos horaires, communiquez sur ce que vous faites, et n'attendez pas d'être bloqué pour demander de l'aide. La réputation se construit dans les premières semaines." },
     ],
-    defi: "Trois situations que j'ai déjà vécues avec des alternants.",
+    defi: "Voici des situations que j'ai déjà vécues avec des alternants.",
     epreuves: [
       {
         type: 'choix',
@@ -403,7 +403,7 @@ export const PERSONNAGES = [
       { q: "C'est quoi, la période d'essai ?", r: "Ce sont les premiers jours du contrat, pendant lesquels vous comme l'employeur pouvez y mettre fin sans vous justifier. Attention, on compte les jours de présence effective en entreprise. Les semaines d'école, les arrêts maladie et les congés ne comptent pas." },
       { q: 'Que se passe-t-il si mon contrat est rompu ?', r: "Vous n'êtes pas seul : le pôle alternance et le C F A continuent de vous accompagner et vous transmettent des offres. Mais il faut se relancer tout de suite, car trouver un employeur en cours d'année est difficile. Et si vous restez sans contrat, on active le statut S F P pour que vous restiez couvert." },
     ],
-    defi: "Dernière ligne droite. Trois questions, et vous aurez tout ce qu'il faut pour valider votre Passeport alternance.",
+    defi: "Dernière ligne droite. Encore quelques questions, et vous aurez tout ce qu'il faut pour valider votre Passeport alternance.",
     epreuves: [
       {
         type: 'choix',
